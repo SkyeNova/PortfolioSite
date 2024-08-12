@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Showcase - Your Name</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #51D9EC;
+            --secondary-color: #2c3e50;
+            --accent-color: #FF4DFF;
+            --bg-color: #f4f4f4;
+            --text-color: #333;
+            --header-bg: rgba(44, 62, 80, 0.4);
+            --header-text: #ecf0f1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        header {
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            color: var(--header-text);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ad9bfa;
+        }
+
+        .showcase {
+            padding: 80px 20px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .showcase h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .image-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .image-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .image-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .fullscreen-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .fullscreen-image {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        header {
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            color: var(--header-text);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ad9bfa;
+        }
+
+        .nav-links ul {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links ul li {
+            margin-left: 20px;
+        }
+
+        .nav-links ul li a {
+            color: var(--header-text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links ul li a:hover {
+            color: var(--accent-color);
+        }
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-image: url('https://destinygames.org/images/2024-05-01_19.36.43.png');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 0.8rem 2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <span>Skye / Arctic_foxxyt</span>
+            </div>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="index.html/#home">Home</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Skye / Arctic_foxxyt Portfolio</h1>
+                <p>Minecraft Developer, 3D Modeler & CEO of AstroFox Studios</p>
+                <a href="#projects" class="cta-button">View My Work</a>
+            </div>
+        </section>
+
+    <main class="showcase">
+        <h1>Showcase</h1>
+        <div class="image-grid">
+            <div class="image-item">
+                <img src="https://example.com/image1.jpg" alt="Image 1">
+            </div>
+            <div class="image-item">
+                <img src="https://example.com/image2.jpg" alt="Image 2">
+            </div>
+            <div class="image-item">
+                <img src="https://example.com/image3.jpg" alt="Image 3">
+            </div>
+            <!-- Add more image items as needed -->
+        </div>
+    </main>
+
+    <div class="fullscreen-overlay">
+        <img src="" alt="Fullscreen Image" class="fullscreen-image">
+        <div class="close-button">&times;</div>
+    </div>
+
+    <script>
+        const imageItems = document.querySelectorAll('.image-item');
+        const fullscreenOverlay = document.querySelector('.fullscreen-overlay');
+        const fullscreenImage = document.querySelector('.fullscreen-image');
+        const closeButton = document.querySelector('.close-button');
+
+        imageItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const imgSrc = item.querySelector('img').src;
+                fullscreenImage.src = imgSrc;
+                fullscreenOverlay.style.display = 'flex';
+            });
+        });
+
+        closeButton.addEventListener('click', () => {
+            fullscreenOverlay.style.display = 'none';
+        });
+
+        fullscreenOverlay.addEventListener('click', (e) => {
+            if (e.target === fullscreenOverlay) {
+                fullscreenOverlay.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

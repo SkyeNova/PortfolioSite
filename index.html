@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skye - Minecraft Developer & 3D Modeler</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #51D9EC;
+            --secondary-color: #2c3e50;
+            --accent-color: #FF4DFF;
+            --bg-color: #f4f4f4;
+            --text-color: #333;
+            --header-bg: rgba(44, 62, 80, 0.4);
+            --header-text: #ecf0f1;
+            --card-bg: #ffffff;
+            --card-text: #333;
+            --footer-bg: #34495e;
+            --footer-text: #ecf0f1;
+        }
+    
+        [data-theme="dark"] {
+            --bg-color: #0F0F1A;
+            --text-color: #f4f4f4;
+            --header-bg: rgba(19, 16, 32, 0.6);
+            --header-text: #ecf0f1;
+            --card-bg: rgba(38, 38, 63, 0.253);
+            --card-text: #f4f4f4;
+            --footer-bg: #080816;
+            --footer-text: #ecf0f1;
+        }
+    
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+    
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+    
+        header {
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            color: var(--header-text);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ad9bfa;
+        }
+
+        .nav-links ul {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links ul li {
+            margin-left: 20px;
+        }
+
+        .nav-links ul li a {
+            color: var(--header-text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-image: url('https://destinygames.org/images/2024-05-01_19.36.43.png');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 0.8rem 2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-color);
+        }
+
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            color: var(--text-color);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .social-links a {
+            color: var(--footer-text);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .menu-icon {
+                display: block !important;
+            }
+        }
+        html {
+          scroll-behavior: smooth;
+        }
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            text-align: center;
+            padding: 2rem 0;
+        }
+    
+        .footer-logo {
+            display: block;
+            margin: 0 auto 1rem;
+            width: auto;
+            height: 100px;
+        }
+    
+        .social-links {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+    
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+    
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+    
+        footer p {
+            font-size: 0.9rem;
+        }
+        .project-card {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+            color: #fff;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+    
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: inherit;
+            opacity: 0.6;
+            z-index: 0;
+            transition: opacity 0.3s ease;
+        }
+    
+        .project-card:hover::before {
+            opacity: 0.8;
+        }
+    
+        .project-card-content {
+            position: relative;
+            z-index: 1;
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    
+        .project-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+    
+        .project-card p {
+            margin-bottom: 1rem;
+        }
+    
+        .project-link {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+    
+        .project-link:hover {
+            background-color: var(--accent-color);
+        }
+        .projects {
+            padding: 5rem 0;
+            background-color: var(--bg-color);
+        }
+    
+        .projects h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            color: var(--text-color);
+        }
+    
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <span>Skye / Arctic_foxxyt</span>
+            </div>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Skye / Arctic_foxxyt Portfolio</h1>
+                <p>Minecraft Developer, 3D Modeler & CEO of AstroFox Studios</p>
+                <a href="#projects" class="cta-button">View My Work</a>
+            </div>
+        </section>
+
+        <section id="skills" class="section">
+            <div class="container">
+                <h2>My Skills</h2>
+                <div class="grid">
+                    <div class="card">
+                        <i class="fas fa-code"></i>
+                        <h3>Minecraft Development</h3>
+                        <p>I'm very skilled with skript development and I'm learning Java!</p>
+                        <a href="#" class="cta-button">Read More!</a>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-cubes"></i>
+                        <h3>3D Modeling</h3>
+                        <p>I have been using Blockbench for a little over a year and I am pretty good at it.</p>
+                        <a href="#" class="cta-button">Read More!</a>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-music"></i>
+                        <h3>Music Production</h3>
+                        <p>I have made tracks for Destiny Games and Astrofox but I closed comissions a while ago!</p>
+                        <a href="#" class="cta-button">Read More!</a>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-paint-brush"></i>
+                        <h3>Minecraft Building</h3>
+                        <p>I have been building in minecraft for around 5 years and I would argue I'm good at it.</p>
+                        <a href="#" class="cta-button">Read More!</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section">
+            <div class="container">
+                <h2>Current Projects</h2>
+                <div class="project-grid">
+                    <div class="project-card coming-soon" style="background-image: url('https://pbs.twimg.com/profile_banners/1691025032913305600/1718491533/1500x500')">
+                        <div class="project-card-content">
+                            <h3>Astrofox Studios</h3>
+                            <p>CEO and Founder</p>
+                            <a href="https://astrofoxstudios.com" class="project-link">Visit Site</a>
+                        </div>
+                    </div>
+                    <div class="project-card" style="background-image: url('https://destinygames.org/images/2024-05-01_19.36.43.png')">
+                        <div class="project-card-content">
+                            <h3>Destiny Games</h3>
+                            <p>Project lead</p>
+                            <a href="https://destinygames.org" class="project-link">Visit Site</a>
+                        </div>
+                    </div>
+                    <div class="project-card" style="background-image: url('https://www.exphost.net/images/image.png')">
+                        <div class="project-card-content">
+                            <h3>Exp Host</h3>
+                            <p>Management</p>
+                            <a href="https://exphost.net" class="project-link">Visit Site</a>
+                        </div>
+                    </div>
+                    <div class="project-card" style="background-image: url('https://pbs.twimg.com/media/GRvfMFlXMAAduID?format=jpg&name=large')">
+                        <div class="project-card-content">
+                            <h3>Tropiclash</h3>
+                            <p>Management</p>
+                            <a href="https://tropiclash.net" class="project-link">Visit Site</a>
+                        </div>
+                    </div>
+                </div>
+        </section>
+
+        <section id="contact" class="section">
+            <div class="container">
+                <h2>Get in Touch</h2>
+                <div class="social-links">
+                    <a href="x.com/SkyeDestinyGame"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.twitch.tv/not_arctic_foxx"><i class="fab fa-twitch"></i></a>
+                    <a href="https://github.com/Arctic-foxxy"><i class="fab fa-github"></i></a>
+                    <a href="https://discord.gg/aDHpp2fQn3"><i class="fab fa-discord"></i></a>
+                    <a href="https://www.youtube.com/@Arctic_foxxyt"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <a href="https://astrofoxstudios.com">
+            <img src="https://www.astrofoxstudios.com/images/image.png" alt="AstroFox Studios" class="footer-logo">
+        </a>
+        <div class="social-links">
+          <a href="https://www.youtube.com/channel/UCamVCCPTcTfXqHCOJp5i0Fw"><i class="fab fa-youtube"></i></a>
+          <a href="https://twitter.com/AstroFoxStudios"><i class="fab fa-twitter"></i></a>
+          <a href="https://discord.gg/aDHpp2fQn3"><i class="fab fa-discord"></i></a>
+        </div>
+        <p>tee hee i see you reading down here smelly :3</p>
+    </footer>
+</body>
+</html>
