@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skye - Minecraft Developer & 3D Modeler</title>
+    <title>Showcase - Your Name</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -14,42 +14,21 @@
             --text-color: #333;
             --header-bg: rgba(44, 62, 80, 0.4);
             --header-text: #ecf0f1;
-            --card-bg: #ffffff;
-            --card-text: #333;
-            --footer-bg: #34495e;
-            --footer-text: #ecf0f1;
         }
-    
-        [data-theme="dark"] {
-            --bg-color: #0F0F1A;
-            --text-color: #f4f4f4;
-            --header-bg: rgba(19, 16, 32, 0.6);
-            --header-text: #ecf0f1;
-            --card-bg: rgba(38, 38, 63, 0.253);
-            --card-text: #f4f4f4;
-            --footer-bg: #080816;
-            --footer-text: #ecf0f1;
-        }
-    
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-    
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: var(--text-color);
             background-color: var(--bg-color);
         }
-    
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-    
+
         header {
             background-color: var(--header-bg);
             backdrop-filter: blur(10px);
@@ -61,6 +40,94 @@
             z-index: 1000;
         }
 
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ad9bfa;
+        }
+
+        .showcase {
+            padding: 80px 20px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .showcase h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .image-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .image-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .image-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .fullscreen-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .fullscreen-image {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            font-size: 30px;
+            cursor: pointer;
+        }
+        header {
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            color: var(--header-text);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
         nav {
             display: flex;
             justify-content: space-between;
@@ -95,7 +162,6 @@
         .nav-links ul li a:hover {
             color: var(--accent-color);
         }
-
         .hero {
             height: 100vh;
             display: flex;
@@ -117,7 +183,6 @@
             font-size: 1.5rem;
             margin-bottom: 2rem;
         }
-
         .cta-button {
             display: inline-block;
             background-color: var(--primary-color);
@@ -131,68 +196,6 @@
 
         .cta-button:hover {
             background-color: var(--accent-color);
-        }
-
-        .section {
-            padding: 5rem 0;
-        }
-
-        .section h2 {
-            text-align: center;
-            margin-bottom: 3rem;
-            font-size: 2.5rem;
-            color: var(--text-color);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 2rem;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card i {
-            font-size: 3rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        footer {
-            background-color: var(--footer-bg);
-            color: var(--footer-text);
-            text-align: center;
-            padding: 2rem 0;
-        }
-
-        .social-links a {
-            color: var(--footer-text);
-            font-size: 1.5rem;
-            margin: 0 10px;
-            transition: color 0.3s ease;
-        }
-
-        .social-links a:hover {
-            color: var(--accent-color);
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            .menu-icon {
-                display: block !important;
-            }
         }
         html {
           scroll-behavior: smooth;
@@ -313,7 +316,7 @@
             gap: 2rem;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 20px 20px;
         }
     </style>
 </head>
@@ -343,86 +346,37 @@
             </div>
         </section>
 
-        <section id="skills" class="section">
-            <div class="container">
-                <h2>My Skills</h2>
-                <div class="grid">
-                    <div class="card">
-                        <i class="fas fa-code"></i>
-                        <h3>Minecraft Development</h3>
-                        <p>I'm very skilled with skript development and I'm learning Java!</p>
-                        <a href="#" class="cta-button">In Progress</a>
-                    </div>
-                    <div class="card">
-                        <i class="fas fa-cubes"></i>
-                        <h3>3D Modeling</h3>
-                        <p>I have been using Blockbench for a little over a year and I am pretty good at it.</p>
-                        <a href="models.html" class="cta-button">Read More!</a>
-                    </div>
-                    <div class="card">
-                        <i class="fas fa-music"></i>
-                        <h3>Music Production</h3>
-                        <p>I have made tracks for Destiny Games and Astrofox but I closed comissions a while ago!</p>
-                        <a href="#" class="cta-button">In Progress</a>
-                    </div>
-                    <div class="card">
-                        <i class="fas fa-paint-brush"></i>
-                        <h3>Web Design</h3>
-                        <p>I have been Working with HTML and CSS for a little over a year, All the Astrofox sites are made by me.</p>
-                        <a href="sites.html" class="cta-button">Read More!</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section id="projects" class="section">
             <div class="container">
-                <h2>Current Projects</h2>
+                <div></div>
                 <div class="project-grid">
                     <div class="project-card coming-soon" style="background-image: url('https://pbs.twimg.com/profile_banners/1691025032913305600/1718491533/1500x500')">
                         <div class="project-card-content">
                             <h3>Astrofox Studios</h3>
-                            <p>CEO and Founder</p>
                             <a href="https://astrofoxstudios.com" class="project-link">Visit Site</a>
                         </div>
                     </div>
                     <div class="project-card" style="background-image: url('https://destinygames.org/images/2024-05-01_19.36.43.png')">
                         <div class="project-card-content">
                             <h3>Destiny Games</h3>
-                            <p>Project lead</p>
                             <a href="https://destinygames.org" class="project-link">Visit Site</a>
                         </div>
                     </div>
                     <div class="project-card" style="background-image: url('https://www.exphost.net/images/image.png')">
                         <div class="project-card-content">
                             <h3>Exp Host</h3>
-                            <p>Management</p>
                             <a href="https://exphost.net" class="project-link">Visit Site</a>
                         </div>
                     </div>
-                    <div class="project-card" style="background-image: url('https://pbs.twimg.com/media/GRvfMFlXMAAduID?format=jpg&name=large')">
+                    <div class="project-card" style="background-image: url('images/hats.png')">
                         <div class="project-card-content">
-                            <h3>Tropiclash</h3>
-                            <p>Management</p>
-                            <a href="https://tropiclash.net" class="project-link">Visit Site</a>
+                            <h3>This site!</h3>
+                            <a href="#" class="project-link">You're Here!</a>
                         </div>
                     </div>
                 </div>
         </section>
 
-        <section id="contact" class="section">
-            <div class="container">
-                <h2>Get in Touch</h2>
-                <div class="social-links">
-                    <a href="x.com/SkyeDestinyGame"><i class="fab fa-twitter"></i></a>
-                    <a href="https://www.twitch.tv/not_arctic_foxx"><i class="fab fa-twitch"></i></a>
-                    <a href="https://github.com/Arctic-foxxy"><i class="fab fa-github"></i></a>
-                    <a href="https://discord.gg/aDHpp2fQn3"><i class="fab fa-discord"></i></a>
-                    <a href="https://www.youtube.com/@Arctic_foxxyt"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-        </section>
-    </main>
 
     <footer>
         <a href="https://astrofoxstudios.com">

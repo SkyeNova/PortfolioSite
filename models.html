@@ -197,6 +197,43 @@
         .cta-button:hover {
             background-color: var(--accent-color);
         }
+        html {
+          scroll-behavior: smooth;
+        }
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            text-align: center;
+            padding: 2rem 0;
+        }
+    
+        .footer-logo {
+            display: block;
+            margin: 0 auto 1rem;
+            width: auto;
+            height: 100px;
+        }
+    
+        .social-links {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+    
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+    
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+    
+        footer p {
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -207,10 +244,10 @@
             </div>
             <div class="nav-links">
                 <ul>
-                    <li><a href="index.html/#home">Home</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="https://arctic-foxxy.github.io/PortfolioSite/#home">Home</a></li>
+                    <li><a href="https://arctic-foxxy.github.io/PortfolioSite/#skills">Skills</a></li>
+                    <li><a href="https://arctic-foxxy.github.io/PortfolioSite/#projects">Projects</a></li>
+                    <li><a href="https://arctic-foxxy.github.io/PortfolioSite/#contact">Contact</a></li>
                 </ul>
             </div>
         </nav>
@@ -229,13 +266,22 @@
         <h1>Showcase</h1>
         <div class="image-grid">
             <div class="image-item">
-                <img src="https://example.com/image1.jpg" alt="Image 1">
+                <img src="images/fox.png" alt="Image 1">
             </div>
             <div class="image-item">
-                <img src="https://example.com/image2.jpg" alt="Image 2">
+                <img src="images/heads.png" alt="Image 2">
             </div>
             <div class="image-item">
-                <img src="https://example.com/image3.jpg" alt="Image 3">
+                <img src="images/hats.png" alt="Image 3">
+            </div>
+            <div class="image-item">
+                <img src="images/morehats.png" alt="Image 3">
+            </div>
+            <div class="image-item">
+                <img src="images/bench.png" alt="Image 3">
+            </div>
+            <div class="image-item">
+                <img src="images/chair.png" alt="Image 3">
             </div>
             <!-- Add more image items as needed -->
         </div>
@@ -245,6 +291,19 @@
         <img src="" alt="Fullscreen Image" class="fullscreen-image">
         <div class="close-button">&times;</div>
     </div>
+
+
+    <footer>
+        <a href="https://astrofoxstudios.com">
+            <img src="https://www.astrofoxstudios.com/images/image.png" alt="AstroFox Studios" class="footer-logo">
+        </a>
+        <div class="social-links">
+          <a href="https://www.youtube.com/channel/UCamVCCPTcTfXqHCOJp5i0Fw"><i class="fab fa-youtube"></i></a>
+          <a href="https://twitter.com/AstroFoxStudios"><i class="fab fa-twitter"></i></a>
+          <a href="https://discord.gg/aDHpp2fQn3"><i class="fab fa-discord"></i></a>
+        </div>
+        <p>tee hee i see you reading down here smelly :3</p>
+    </footer>
 
     <script>
         const imageItems = document.querySelectorAll('.image-item');
