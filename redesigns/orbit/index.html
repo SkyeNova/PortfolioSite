@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Skye · SkyeNova</title>
+<meta name="description" content="Skye: founder and creative lead at Astrofox Studios, COO at Callisto. I design, code and lead the teams behind Solaris, Callisto and more.">
+<meta property="og:title" content="Skye · SkyeNova">
+<meta property="og:description" content="Founder & creative lead at Astrofox Studios. COO at Callisto.">
+<meta property="og:image" content="https://skyenova.dev/images/work/solaris-city.webp">
+<link rel="icon" href="../../favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+    color-scheme: dark;
+    --purple: #A949F3;
+    --purple-light: #ba72f1;
+    --magenta: #E431F7;
+    --bg: #121216;
+    --surface: rgba(30, 30, 36, 0.45);
+    --surface-raised: rgba(255, 255, 255, 0.045);
+    --line: rgba(255, 255, 255, 0.09);
+    --line-strong: rgba(255, 255, 255, 0.2);
+    --text: #f5f5f7;
+    --text-2: rgba(245, 245, 247, 0.68);
+    --text-3: rgba(245, 245, 247, 0.42);
+    --grad: linear-gradient(135deg, var(--purple), var(--magenta));
+    --ease: cubic-bezier(0.25, 0.8, 0.25, 1);
+    --radius: 22px;
+    --z-nav: 50;
+    --z-grain: 60;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+body {
+    font-family: 'Poppins', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background: radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,0.035) 0%, transparent 55%);
+}
+.grain {
+    position: fixed; inset: 0; z-index: var(--z-grain); pointer-events: none; opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+:focus-visible { outline: 2px solid var(--purple-light); outline-offset: 3px; border-radius: 6px; }
+
+.skip { position: absolute; left: -999px; top: 12px; background: #fff; color: #000; padding: 8px 14px; border-radius: 8px; z-index: 100; }
+.skip:focus { left: 12px; }
+
+.wrap { width: min(1160px, 100% - 32px); margin-inline: auto; }
+
+/* ---------- Nav: attached bar that detaches into a glass pill ---------- */
+header {
+    position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+    width: calc(100% - 32px); max-width: 1100px;
+    z-index: var(--z-nav);
+    border: 1px solid transparent; border-top: 0;
+    border-radius: 0 0 20px 20px;
+    padding: 10px 0;
+    transition: top .4s var(--ease), padding .4s var(--ease), border-radius .4s var(--ease), background .4s var(--ease), border-color .4s var(--ease);
+}
+header.scrolled {
+    top: 12px; padding: 4px 0;
+    background: rgba(248, 250, 252, 0.05);
+    backdrop-filter: blur(12px) contrast(1.1);
+    -webkit-backdrop-filter: blur(12px) contrast(1.1);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 50px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+nav { display: flex; align-items: center; gap: 24px; padding: 8px 12px 8px 22px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; }
+.brand-mark {
+    width: 26px; height: 26px; border-radius: 8px; background: var(--grad);
+    display: grid; place-items: center; font-size: .8rem; font-weight: 800;
+    box-shadow: 0 0 18px rgba(169,73,243,.55);
+}
+.brand span { color: var(--text-3); font-weight: 500; }
+.nav-links { display: flex; gap: 4px; list-style: none; margin-left: auto; }
+.nav-links a { display: block; padding: 8px 14px; border-radius: 999px; font-size: .92rem; color: var(--text-2); transition: color .2s, background .2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--text); background: rgba(255,255,255,0.06); }
+
+/* ---------- Buttons ---------- */
+.btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 13px 24px; border-radius: 999px;
+    font-weight: 600; font-size: .95rem;
+    border: 1px solid var(--line-strong);
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s, border-color .25s;
+}
+.btn:active { transform: translateY(1px) scale(.98); }
+.btn-primary { background: linear-gradient(135deg, var(--magenta), #ea74f7); box-shadow: 0 4px 15px rgba(189,30,229,0.4); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(229,30,219,0.5); border-color: rgba(255,255,255,0.7); }
+.btn-ghost { background: rgba(229,30,212,0.08); border-color: rgba(212,30,229,0.32); color: #f3c2fb; }
+.btn-ghost:hover { background: rgba(229,30,212,0.16); transform: translateY(-3px); }
+.btn svg { width: 16px; height: 16px; transition: transform .25s var(--ease); }
+.btn:hover svg { transform: translateX(3px); }
+.nav-cta { padding: 9px 18px; font-size: .88rem; }
+
+/* ---------- Hero ---------- */
+.hero {
+    position: relative; overflow: hidden;
+    min-height: clamp(620px, 92dvh, 980px); display: flex; align-items: center; justify-content: center;
+    padding: 150px 16px 72px; text-align: center;
+}
+.hero-grid {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px);
+    background-size: 40px 40px;
+    -webkit-mask-image: radial-gradient(ellipse 90% 85% at 50% 45%, #000 0%, transparent 100%);
+    mask-image: radial-gradient(ellipse 90% 85% at 50% 45%, #000 0%, transparent 100%);
+}
+.hero-grid::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(48% 42% at 50% 48%, rgba(169,73,243,0.16), transparent 70%);
+}
+.hero-inner { position: relative; z-index: 1; max-width: 980px; }
+.eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: .8rem; font-weight: 600; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--text-3); margin-bottom: 28px;
+}
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 0 4px rgba(74,222,128,.15); animation: pulse 2.4s ease-in-out infinite; }
+@keyframes pulse { 50% { box-shadow: 0 0 0 7px rgba(74,222,128,0); } }
+.hero h1 {
+    font-size: clamp(2.6rem, 7.4vw, 5.6rem);
+    font-weight: 800; letter-spacing: -0.035em; line-height: 1.12;
+    margin-bottom: 28px;
+}
+.hero h1 .line {
+    display: block;
+    background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.78) 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero h1 .rotate {
+    display: inline-block;
+    background: var(--grad);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    padding-bottom: .08em;
+    transition: opacity .35s var(--ease), transform .35s var(--ease), filter .35s var(--ease);
+}
+.hero h1 .rotate.swap { opacity: 0; transform: translateY(14px); filter: blur(6px); }
+.hero .sub {
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem); color: var(--text-2);
+    max-width: 640px; margin: 0 auto 40px; text-wrap: pretty;
+}
+.hero .sub strong { color: var(--text); font-weight: 500; }
+.hero-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+.stats {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    background: var(--surface); backdrop-filter: blur(10px);
+    margin-top: -36px;
+}
+.stat { padding: 26px 28px; }
+.stat + .stat { border-left: 1px solid var(--line); }
+.stat b { display: block; font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.stat span { font-size: .88rem; color: var(--text-3); }
+
+/* ---------- Sections ---------- */
+section { padding: 128px 0 112px; }
+.sec-head { display: flex; justify-content: space-between; align-items: end; gap: 32px; margin-bottom: 56px; flex-wrap: wrap; }
+.sec-head .eyebrow { margin-bottom: 14px; }
+.sec-head h2 { font-size: clamp(2rem, 4.2vw, 3.2rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; max-width: 640px; text-wrap: balance; }
+.sec-head h2 em { font-style: normal; background: var(--grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.sec-head p { color: var(--text-2); max-width: 380px; }
+
+.card {
+    position: relative; overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+    transition: border-color .3s, transform .4s var(--ease);
+}
+/* cursor spotlight on card borders */
+.card::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(169,73,243,0.13), transparent 45%);
+    opacity: 0; transition: opacity .3s;
+}
+.card:hover::after { opacity: 1; }
+.card:hover { border-color: rgba(186,114,241,0.35); }
+
+/* ---------- Roles bento ---------- */
+.roles { display: grid; grid-template-columns: 1.35fr 1fr; grid-template-rows: auto auto; gap: 16px; }
+.role { padding: 32px; display: flex; flex-direction: column; gap: 14px; }
+.role.big { grid-row: span 2; justify-content: space-between; min-height: 420px; }
+.role-top { display: flex; align-items: center; gap: 14px; }
+.role-logo { width: 52px; height: 52px; border-radius: 14px; background: rgba(255,255,255,0.05); border: 1px solid var(--line); display: grid; place-items: center; padding: 8px; }
+.role-org { font-weight: 600; font-size: 1.15rem; }
+.role-title { font-size: .85rem; color: var(--purple-light); font-weight: 500; }
+.role p { color: var(--text-2); font-size: .97rem; max-width: 52ch; }
+.role.big h3 { font-size: clamp(1.6rem, 2.6vw, 2.2rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; max-width: 16ch; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-size: .78rem; padding: 6px 12px; border-radius: 8px; background: rgba(255,255,255,0.05); border: 1px solid var(--line); color: var(--text-2); }
+.link-arrow { display: inline-flex; align-items: center; gap: 8px; font-weight: 500; font-size: .92rem; color: var(--text); margin-top: auto; }
+.link-arrow svg { width: 15px; transition: transform .25s var(--ease); }
+.role:hover .link-arrow svg, .work:hover .link-arrow svg { transform: translate(3px, -3px); }
+.role.big .bg-mark {
+    position: absolute; right: -60px; bottom: -70px; width: 320px; opacity: .14; filter: blur(1px);
+    pointer-events: none;
+}
+
+/* ---------- Work ---------- */
+.works { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.work { display: flex; flex-direction: column; }
+.work.w-feature { grid-column: span 6; display: grid; grid-template-columns: 1.4fr 1fr; min-height: 440px; }
+.work.w-half { grid-column: span 3; }
+.work.w-third { grid-column: span 2; }
+.work-media { position: relative; overflow: hidden; background: #18181d; aspect-ratio: 16/9; }
+.w-feature .work-media { aspect-ratio: auto; height: 100%; }
+.work-media img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+.work:hover .work-media img { transform: scale(1.04); }
+.work-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 50%, rgba(18,18,22,.55)); }
+.w-feature .work-media::after { background: linear-gradient(90deg, transparent 60%, rgba(18,18,22,.9)); }
+.work-body { padding: 28px 30px 30px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.w-feature .work-body { padding: 44px 40px; justify-content: center; }
+.meta-row { display: flex; gap: 10px; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: .74rem; color: var(--text-3); text-transform: uppercase; letter-spacing: .06em; }
+.tag { padding: 4px 9px; border-radius: 6px; border: 1px solid var(--line); }
+.tag.live { color: #86efac; border-color: rgba(134,239,172,.3); background: rgba(134,239,172,.06); }
+.tag.dev { color: #f5d08a; border-color: rgba(245,208,138,.3); background: rgba(245,208,138,.06); }
+.work h3 { font-size: 1.45rem; font-weight: 700; letter-spacing: -0.02em; }
+.w-feature h3 { font-size: clamp(2rem, 3.4vw, 2.8rem); letter-spacing: -0.035em; line-height: 1.05; }
+.work p { color: var(--text-2); font-size: .96rem; }
+.my-part { font-size: .85rem; color: var(--text-3); border-top: 1px solid var(--line); padding-top: 14px; margin-top: 4px; }
+.my-part b { color: var(--text-2); font-weight: 500; }
+
+.callisto-media { display: grid; place-items: center; background:
+    radial-gradient(60% 70% at 50% 50%, rgba(119,140,255,.18), transparent 70%),
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px) 0 0/28px 28px,
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px) 0 0/28px 28px, #15151b; }
+.callisto-media img { width: 96px; height: 96px; object-fit: contain; filter: drop-shadow(0 0 24px rgba(120,140,255,.6)); }
+.callisto-media .term {
+    position: absolute; left: 18px; bottom: 16px; font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: rgba(255,255,255,.55);
+}
+.term i { font-style: normal; color: #86efac; }
+
+.secret-media { display: grid; place-items: center; background: radial-gradient(55% 60% at 50% 55%, rgba(94,234,212,.12), transparent 70%), #141418; }
+.secret-media .redact { font-family: 'JetBrains Mono', monospace; font-size: .8rem; letter-spacing: .25em; color: rgba(255,255,255,.4); text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.secret-media .bar { width: 140px; height: 14px; border-radius: 3px; background: rgba(255,255,255,.12); }
+.secret-media .bar.s { width: 90px; }
+
+/* ---------- Path (timeline) ---------- */
+.path { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; position: relative; }
+.path::before { content: ''; position: absolute; left: 0; right: 0; top: 13px; height: 1px; background: linear-gradient(90deg, var(--line), rgba(186,114,241,.5), var(--line)); }
+.step { padding-right: 24px; position: relative; }
+.step .node { width: 27px; height: 27px; border-radius: 50%; border: 1px solid var(--line-strong); background: var(--bg); display: grid; place-items: center; margin-bottom: 22px; }
+.step .node::after { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--text-3); }
+.step.now .node { border-color: rgba(228,49,247,.6); box-shadow: 0 0 20px rgba(228,49,247,.35); }
+.step.now .node::after { background: var(--magenta); }
+.step time { font-family: 'JetBrains Mono', monospace; font-size: .8rem; color: var(--purple-light); }
+.step h4 { font-size: 1.08rem; font-weight: 600; margin: 4px 0 8px; }
+.step p { font-size: .9rem; color: var(--text-2); }
+
+/* ---------- Toolkit + about ---------- */
+.about { display: grid; grid-template-columns: 340px 1fr; gap: 56px; align-items: start; }
+.portrait { padding: 10px; transform: rotate(-2deg); }
+.portrait img { border-radius: 14px; aspect-ratio: 1; object-fit: cover; width: 100%; }
+.portrait figcaption { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--text-3); padding: 12px 6px 4px; }
+.about-copy p { color: var(--text-2); font-size: 1.08rem; max-width: 62ch; margin-bottom: 18px; }
+.about-copy p strong { color: var(--text); font-weight: 500; }
+.kit { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+.kit .card { padding: 24px; }
+.kit h4 { font-size: .8rem; letter-spacing: .2em; text-transform: uppercase; color: var(--text-3); font-weight: 600; margin-bottom: 14px; }
+.kit ul { list-style: none; display: grid; gap: 8px; }
+.kit li { display: flex; justify-content: space-between; font-size: .95rem; }
+.kit li small { color: var(--text-3); font-family: 'JetBrains Mono', monospace; font-size: .72rem; }
+
+/* ---------- Contact ---------- */
+.contact { padding: 72px 56px; text-align: center; }
+.contact::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    -webkit-mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, #000, transparent);
+    mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, #000, transparent);
+}
+.contact > * { position: relative; }
+.contact h2 { font-size: clamp(2rem, 5vw, 3.6rem); font-weight: 800; letter-spacing: -0.035em; line-height: 1.08; margin-bottom: 18px; text-wrap: balance; }
+.contact p { color: var(--text-2); max-width: 520px; margin: 0 auto 34px; }
+.socials { display: flex; gap: 10px; justify-content: center; margin-top: 30px; }
+.socials a { width: 46px; height: 46px; border-radius: 14px; border: 1px solid var(--line); display: grid; place-items: center; color: var(--text-2); transition: color .2s, border-color .2s, transform .25s var(--ease); }
+.socials a:hover { color: #fff; border-color: rgba(186,114,241,.5); transform: translateY(-3px); }
+.socials svg { width: 20px; height: 20px; }
+
+footer { padding: 40px 0 48px; color: var(--text-3); font-size: .85rem; }
+footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 28px; }
+
+/* ---------- Reveal ---------- */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: var(--d, 0s); }
+.reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .nav-links { display: none; }
+    .nav-cta { margin-left: auto; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat:nth-child(3) { border-left: 0; }
+    .stat:nth-child(n+3) { border-top: 1px solid var(--line); }
+    .roles { grid-template-columns: 1fr; }
+    .role.big { grid-row: auto; min-height: 0; }
+    .work.w-feature { grid-template-columns: 1fr; }
+    .w-feature .work-media { aspect-ratio: 16/9; height: auto; }
+    .w-feature .work-media::after { background: linear-gradient(180deg, transparent 50%, rgba(18,18,22,.6)); }
+    .work.w-half, .work.w-third { grid-column: span 6; }
+    .path { grid-template-columns: 1fr; gap: 28px; }
+    .path::before { left: 13px; right: auto; top: 0; bottom: 0; width: 1px; height: auto; background: linear-gradient(180deg, var(--line), rgba(186,114,241,.5), var(--line)); }
+    .step { display: grid; grid-template-columns: 27px 1fr; column-gap: 20px; padding: 0; }
+    .step .node { margin: 0; grid-row: span 3; }
+    .about { grid-template-columns: 1fr; gap: 40px; }
+    .portrait { max-width: 300px; }
+    .kit { grid-template-columns: 1fr; }
+    .contact { padding: 56px 22px; }
+    section { padding: 96px 0 84px; }
+}
+@media (max-width: 520px) {
+    .stat { padding: 20px; }
+    .stat b { font-size: 1.6rem; }
+    .w-feature .work-body, .work-body, .role { padding: 24px; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="grain" aria-hidden="true"></div>
+
+<header id="top-nav">
+    <nav aria-label="Primary">
+        <a href="#" class="brand"><span class="brand-mark" aria-hidden="true">S</span>Skye<span>Nova</span></a>
+        <ul class="nav-links">
+            <li><a href="#now">Now</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#path">Path</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+        <a href="#contact" class="btn btn-primary nav-cta">Say hi</a>
+    </nav>
+</header>
+
+<main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-grid" aria-hidden="true"></div>
+        <div class="hero-inner">
+            <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span>Founder · Designer · Developer</p>
+            <h1 id="hero-title">
+                <span class="line">Hi, I'm Skye.</span>
+                <span class="line" style="display:inline">I build </span><span class="rotate" id="rotate">games.</span>
+            </h1>
+            <p class="sub">Founder and creative lead at <strong>Astrofox Studios</strong>, COO at <strong>Callisto</strong>. I design, write code and run the small teams behind competitive Minecraft, developer hosting and an original game we haven't shown yet.</p>
+            <div class="hero-cta">
+                <a href="#work" class="btn btn-primary">See my work
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                <a href="#contact" class="btn btn-ghost">Get in touch</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="wrap">
+        <div class="stats reveal">
+            <div class="stat"><b>2021</b><span>First event shipped</span></div>
+            <div class="stat"><b>3</b><span>Projects live or in dev</span></div>
+            <div class="stat"><b>13</b><span>People across the studio</span></div>
+            <div class="stat"><b>4</b><span>Hats, give or take</span></div>
+        </div>
+    </div>
+
+    <section id="now">
+        <div class="wrap">
+            <div class="sec-head reveal">
+                <div>
+                    <p class="eyebrow">What I do now</p>
+                    <h2>One studio, a few <em>different worlds.</em></h2>
+                </div>
+                <p>I split my time between running Astrofox, building software at Callisto and art-directing Solaris.</p>
+            </div>
+
+            <div class="roles">
+                <a class="card role big reveal" href="https://astrofoxstudios.com" target="_blank" rel="noopener">
+                    <div class="role-top">
+                        <div class="role-logo"><img src="../../images/logos/Astrofox 2.0.png" alt=""></div>
+                        <div><div class="role-org">Astrofox Studios</div><div class="role-title">CEO · Founder · Creative Lead</div></div>
+                    </div>
+                    <h3>Started as a Minecraft event. Became a studio.</h3>
+                    <p>I founded Astrofox around Destiny Games in 2021. Today it's a small independent studio building games, communities and the infrastructure under them. I lead creative direction, branding and the overall roadmap.</p>
+                    <div class="chips"><span class="chip">Creative direction</span><span class="chip">Brand</span><span class="chip">Roadmap</span><span class="chip">Hiring</span></div>
+                    <span class="link-arrow">astrofoxstudios.com <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+                    <img class="bg-mark" src="../../images/logos/Astrofox 2.0.png" alt="" aria-hidden="true">
+                </a>
+                <a class="card role reveal" style="--d:.08s" href="https://callisto.host" target="_blank" rel="noopener">
+                    <div class="role-top">
+                        <div class="role-logo"><img src="../../images/work/callisto-logo.webp" alt=""></div>
+                        <div><div class="role-org">Callisto</div><div class="role-title">COO · Head of Software</div></div>
+                    </div>
+                    <p>Hosting and infrastructure for developers, and the successor to ExpHost. I run operations and lead the software side, from the marketing site to Aurora Panel.</p>
+                    <span class="link-arrow">callisto.host <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+                </a>
+                <a class="card role reveal" style="--d:.16s" href="https://playsolaris.net" target="_blank" rel="noopener">
+                    <div class="role-top">
+                        <div class="role-logo"><img src="../../images/work/solaris-logo.webp" alt=""></div>
+                        <div><div class="role-org">Solaris</div><div class="role-title">Art Director</div></div>
+                    </div>
+                    <p>Competitive Minecraft with ranked play and seasons. I own the visual identity: logo, UI, and the look of the world players spend their time in.</p>
+                    <span class="link-arrow">playsolaris.net <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="work">
+        <div class="wrap">
+            <div class="sec-head reveal">
+                <div>
+                    <p class="eyebrow">Selected work</p>
+                    <h2>Things I've helped <em>ship.</em></h2>
+                </div>
+                <p>Live projects first, then the older ones that taught us how to build the new ones.</p>
+            </div>
+
+            <div class="works">
+                <a class="card work w-feature reveal" href="https://playsolaris.net" target="_blank" rel="noopener">
+                    <div class="work-media"><img src="../../images/work/solaris-city.webp" alt="The Solaris hub city at night, with neon purple and teal towers around a fountain"></div>
+                    <div class="work-body">
+                        <div class="meta-row"><span class="tag live">Early Access</span><span>Minecraft Java</span></div>
+                        <h3>Solaris</h3>
+                        <p>Competitive Minecraft, done properly. Ranked play, seasonal progression and a real path to esports. Season 1, Starfall, is live now.</p>
+                        <p class="my-part"><b>My part:</b> art direction, brand identity, UI.</p>
+                        <span class="link-arrow">Visit playsolaris.net <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+                    </div>
+                </a>
+
+                <a class="card work w-half reveal" href="https://callisto.host" target="_blank" rel="noopener">
+                    <div class="work-media callisto-media">
+                        <img src="../../images/work/callisto-logo.webp" alt="Callisto logo">
+                        <span class="term" aria-hidden="true"><i>$</i> aurora deploy --region eu-west</span>
+                    </div>
+                    <div class="work-body">
+                        <div class="meta-row"><span class="tag live">Live</span><span>Infrastructure</span></div>
+                        <h3>Callisto</h3>
+                        <p>Hosting for developers, with fast hardware and real support. Grew out of ExpHost.</p>
+                        <p class="my-part"><b>My part:</b> operations, software lead, site and panel design.</p>
+                    </div>
+                </a>
+
+                <div class="card work w-half reveal" style="--d:.08s">
+                    <div class="work-media secret-media">
+                        <div class="redact" aria-hidden="true"><span class="bar"></span>Unannounced<span class="bar s"></span></div>
+                    </div>
+                    <div class="work-body">
+                        <div class="meta-row"><span class="tag dev">In development</span><span>Original IP</span></div>
+                        <h3>A standalone game</h3>
+                        <p>Our first project outside Minecraft. I'm leading it. I can't say more than that yet, but you'll hear about it here first.</p>
+                        <p class="my-part"><b>My part:</b> project lead, creative direction.</p>
+                    </div>
+                </div>
+
+                <a class="card work w-third reveal" href="https://destinygames.org" target="_blank" rel="noopener">
+                    <div class="work-media"><img src="../../images/work/destiny.webp" alt="Destiny Games promotional artwork" loading="lazy"></div>
+                    <div class="work-body">
+                        <div class="meta-row"><span class="tag">2021</span><span>Event series</span></div>
+                        <h3>Destiny Games</h3>
+                        <p>The Minecraft event series where the studio and its community started.</p>
+                    </div>
+                </a>
+                <div class="card work w-third reveal" style="--d:.08s">
+                    <div class="work-media"><img src="../../images/work/tropiclash.webp" alt="Tropiclash promotional artwork" loading="lazy"></div>
+                    <div class="work-body">
+                        <div class="meta-row"><span class="tag">2022</span><span>Prototype</span></div>
+                        <h3>Tropiclash</h3>
+                        <p>A tropical survival prototype. It never shipped, but Solaris runs on its systems.</p>
+                    </div>
+                </div>
+                <a class="card work w-third reveal" style="--d:.16s" href="https://crescent.exphost.net" target="_blank" rel="noopener">
+                    <div class="work-media callisto-media"><span class="term" aria-hidden="true" style="position:static;font-size:.85rem"><i>▲</i> revenue +18.4% mo/mo</span></div>
+                    <div class="work-body">
+                        <div class="meta-row"><span class="tag">Tool</span><span>Web app</span></div>
+                        <h3>Crescent</h3>
+                        <p>A self-hosted finance dashboard for Pterodactyl and Paymenter, built for ExpHost.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="path">
+        <div class="wrap">
+            <div class="sec-head reveal">
+                <div>
+                    <p class="eyebrow">The road so far</p>
+                    <h2>Five years, <em>one thread.</em></h2>
+                </div>
+            </div>
+            <ol class="path" role="list">
+                <li class="step reveal"><span class="node"></span><time>2021</time><h4>Destiny Games</h4><p>A Minecraft event series that gathered our first community.</p></li>
+                <li class="step reveal" style="--d:.06s"><span class="node"></span><time>2022</time><h4>Tropiclash</h4><p>A survival prototype whose systems became the base for Solaris.</p></li>
+                <li class="step reveal" style="--d:.12s"><span class="node"></span><time>2023</time><h4>ExpHost</h4><p>We started hosting our own servers, then everyone else's.</p></li>
+                <li class="step reveal" style="--d:.18s"><span class="node"></span><time>2024</time><h4>Solaris</h4><p>Competitive Minecraft with real ranked play enters development.</p></li>
+                <li class="step now reveal" style="--d:.24s"><span class="node"></span><time>2026</time><h4>Refocused</h4><p>Astrofox rebrands, ExpHost becomes Callisto, Solaris hits Early Access.</p></li>
+            </ol>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="wrap about">
+            <figure class="card portrait reveal">
+                <img src="../../images/me.jpg" alt="Skye taking a mirror selfie">
+                <figcaption><span>SKYE</span><span>SKYENOVA_</span></figcaption>
+            </figure>
+            <div class="about-copy reveal" style="--d:.08s">
+                <p class="eyebrow">About</p>
+                <p>I'm Skye, a student, designer and developer who got into all of this through Minecraft. I like the whole stack of making something: <strong>the brand, the interface, the code, and the people</strong> who make it happen.</p>
+                <p>Most of my week goes into Astrofox and Callisto. When I'm not shipping, I'm learning: right now that's C#, for the game we haven't announced.</p>
+                <div class="kit">
+                    <div class="card"><h4>Design</h4><ul><li>UI / UX</li><li>Brand identity</li><li>Art direction</li></ul></div>
+                    <div class="card"><h4>Code</h4><ul><li>HTML &amp; CSS</li><li>JavaScript</li><li>Python · Flask</li><li>C# <small>learning</small></li></ul></div>
+                    <div class="card"><h4>Lead</h4><ul><li>Running teams</li><li>Operations</li><li>Community</li></ul></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" style="padding-top:40px">
+        <div class="wrap">
+            <div class="card contact reveal">
+                <p class="eyebrow">Contact</p>
+                <h2>Building something?<br>Let's talk.</h2>
+                <p>Collaborations, studio work, Callisto questions, or just to say hi. Discord is the fastest way to reach me.</p>
+                <a href="https://discord.gg/vkFQDhJE9P" class="btn btn-primary" target="_blank" rel="noopener">Message me on Discord
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                <div class="socials">
+                    <a href="https://github.com/SkyeNova" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.82 1.19 3.08 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg></a>
+                    <a href="https://discord.gg/vkFQDhJE9P" target="_blank" rel="noopener" aria-label="Astrofox Discord"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.32 4.37A19.8 19.8 0 0 0 15.4 2.85a13.7 13.7 0 0 0-.63 1.29 18.4 18.4 0 0 0-5.53 0 12.6 12.6 0 0 0-.64-1.29 19.7 19.7 0 0 0-4.92 1.52C.53 9.05-.32 13.6.1 18.1a19.9 19.9 0 0 0 6.03 3.05c.49-.66.92-1.36 1.29-2.1a12.9 12.9 0 0 1-2.03-.97l.5-.39a14.2 14.2 0 0 0 12.2 0l.5.39c-.65.38-1.33.71-2.04.97.37.74.8 1.44 1.29 2.1a19.8 19.8 0 0 0 6.04-3.05c.5-5.2-.84-9.72-3.56-13.73ZM8.02 15.33c-1.18 0-2.16-1.08-2.16-2.42s.95-2.42 2.16-2.42 2.18 1.09 2.16 2.42c0 1.34-.95 2.42-2.16 2.42Zm7.97 0c-1.18 0-2.15-1.08-2.15-2.42s.95-2.42 2.15-2.42 2.18 1.09 2.16 2.42c0 1.34-.94 2.42-2.16 2.42Z"/></svg></a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="wrap">
+        <span>© 2026 SkyeNova</span>
+        <span>Built by hand. Hosted on GitHub Pages.</span>
+    </div>
+</footer>
+
+<script>
+(() => {
+    const nav = document.getElementById('top-nav');
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    const words = ['games.', 'infrastructure.', 'communities.', 'brands.', 'worlds.'];
+    const el = document.getElementById('rotate');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce) {
+        let i = 0;
+        setInterval(() => {
+            el.classList.add('swap');
+            setTimeout(() => { i = (i + 1) % words.length; el.textContent = words[i]; el.classList.remove('swap'); }, 350);
+        }, 2600);
+    }
+
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(n => io.observe(n));
+
+    document.querySelectorAll('.card').forEach(c => c.addEventListener('pointermove', e => {
+        const r = c.getBoundingClientRect();
+        c.style.setProperty('--mx', `${e.clientX - r.left}px`);
+        c.style.setProperty('--my', `${e.clientY - r.top}px`);
+    }));
+
+    const links = [...document.querySelectorAll('.nav-links a')];
+    const spy = new IntersectionObserver(entries => entries.forEach(e => {
+        if (e.isIntersecting) links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+    }), { rootMargin: '-45% 0px -50% 0px' });
+    document.querySelectorAll('main section[id]').forEach(s => spy.observe(s));
+})();
+</script>
+</body>
+</html>

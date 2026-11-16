@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>SkyeNova · Redesign drafts</title>
+<link rel="icon" href="/favicon-32x32.png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root { --bg: #121216; --line: rgba(255,255,255,.09); --text: #f5f5f7; --text-2: rgba(245,245,247,.62); }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Poppins', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100dvh; padding: 72px 16px; }
+main { max-width: 860px; margin: 0 auto; }
+.eyebrow { font-family: 'JetBrains Mono', monospace; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--text-2); }
+h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; letter-spacing: -.03em; margin: 10px 0 40px; }
+ul { list-style: none; display: grid; gap: 12px; }
+a { display: grid; grid-template-columns: 1fr auto; gap: 6px 24px; align-items: center; padding: 24px 26px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.03); color: inherit; text-decoration: none; transition: border-color .2s, transform .25s cubic-bezier(.25,.8,.25,1); }
+a:hover { border-color: rgba(186,114,241,.5); transform: translateY(-2px); }
+a:focus-visible { outline: 2px solid #ba72f1; outline-offset: 3px; }
+a strong { font-size: 1.3rem; font-weight: 600; }
+a p { grid-column: 1; color: var(--text-2); font-size: .95rem; }
+a span { grid-row: span 2; grid-column: 2; font-family: 'JetBrains Mono', monospace; font-size: .8rem; color: var(--text-2); }
+.current { opacity: .7; }
+</style>
+</head>
+<body>
+<main>
+    <p class="eyebrow">skyenova.dev · drafts</p>
+    <h1>Drafts</h1>
+    <ul>
+        <li><a href="/"><strong>Live redesign</strong><p>The Flask version of Index, served at the site root.</p><span>/ →</span></a></li>
+        {% for d in designs %}
+        <li><a href="/drafts/{{ d.slug }}/"><strong>{{ loop.index }}. {{ d.name }}</strong><p>{{ d.blurb }}</p><span>/drafts/{{ d.slug }}/ →</span></a></li>
+        {% endfor %}
+        <li class="current"><a href="/drafts/current/"><strong>Current site</strong><p>The live version, for comparison.</p><span>/drafts/current/ →</span></a></li>
+    </ul>
+</main>
+</body>
+</html>

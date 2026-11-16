@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% from "work/_macros.html" import cover, status %}
+{% block title %}{{ project.name }} · Skye{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cine.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/work.css') }}">
+{% endblock %}
+{% block body_class %}cine{% endblock %}
+
+{% block content %}
+    {% set c = project.cover or project %}
+    {% set blank = project.style == "blank" %}
+    <article class="cs{{ ' cs-secret' if blank }}">
+        <header class="cine-hero{{ ' blank' if blank }}">
+            {% if blank %}
+            <p class="cine-hero-blank serif" role="img" aria-label="No artwork. Deliberately.">{{ project.placeholder }}<small>On purpose.</small></p>
+            {% elif not project.cover and project.style == "logo" %}
+            <div class="cine-hero-media logo"><img src="/images/{{ project.image }}" alt="{{ project.alt }}" width="{{ project.size[0] }}" height="{{ project.size[1] }}"></div>
+            {% else %}
+            <div class="cine-hero-media"><img src="/images/{{ c.image }}" alt="{{ c.alt }}" width="{{ c.size[0] }}" height="{{ c.size[1] }}" fetchpriority="high"></div>
+            {% endif %}
+            <div class="wrap cine-hero-inner">
+                <p class="kicker"><a href="{{ url_for('work.index') }}">Work</a> &nbsp;·&nbsp; {{ '%02d' % number }} of {{ '%02d' % total }}</p>
+                <h1>{{ project.name }}</h1>
+                <p class="cine-tag serif">{{ project.tagline }}</p>
+            </div>
+        </header>
+
+        <section class="billing auto cs-facts" aria-label="Project facts">
+            <div class="wrap">
+                <ul>
+                    <li><span class="b-title">Role</span><span class="b-org serif">{{ project.role }}</span></li>
+                    <li><span class="b-title">Years</span><span class="b-org serif">{{ project.year }}</span></li>
+                    <li><span class="b-title">Platform</span><span class="b-org serif">{{ project.platform }}</span></li>
+                    <li><span class="b-title">Status</span><span class="b-org">{{ status(project) }}</span></li>
+                    <li><span class="b-title">Link</span><span class="b-org">
+                        {%- if project.url %}<a class="pill ext" href="{{ project.url }}" target="_blank" rel="noopener">{{ project.url|replace('https://', '') }}</a>
+                        {%- else %}<span class="cs-none serif">None yet</span>{% endif -%}
+                    </span></li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="wrap cs-body">
+            <p class="cs-intro">{{ project.intro }}</p>
+            {% for s in project.sections %}
+            <section class="cs-sec" aria-labelledby="sec-{{ loop.index }}">
+                <h2 id="sec-{{ loop.index }}">{{ s.heading }}</h2>
+                <div class="cs-prose">
+                    {% for para in s.body %}<p>{{ para }}</p>{% endfor %}
+                </div>
+            </section>
+            {% endfor %}
+        </div>
+
+        {% if project.gallery %}
+        <section class="cs-gallery" aria-labelledby="gallery-title">
+            <div class="wrap"><p class="kicker" id="gallery-title">Stills</p></div>
+            <ul>
+                {% for g in project.gallery %}
+                <li class="{{ 'contain' if g.fit == 'contain' }}" data-reveal>
+                    <figure>
+                        <div class="cs-gimg"><img src="/images/{{ g.image }}" alt="{{ g.alt }}" width="{{ g.size[0] }}" height="{{ g.size[1] }}" loading="lazy"></div>
+                        {% if g.caption %}<figcaption class="slate">{{ g.caption }}</figcaption>{% endif %}
+                    </figure>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+        {% elif blank %}
+        <section class="cs-gallery" aria-label="Stills, none yet">
+            <div class="wrap"><p class="kicker">Stills</p></div>
+            <ul>
+                <li class="redacted"><div class="w-blank"><span class="serif">Key art, eventually.</span></div></li>
+                <li class="redacted"><div class="w-blank"><span class="serif">A screenshot, eventually.</span></div></li>
+                <li class="redacted"><div class="w-blank"><span class="serif">A name, eventually.</span></div></li>
+            </ul>
+        </section>
+        {% endif %}
+
+        {% if project.credits %}
+        <section class="cs-credits" aria-labelledby="credits-title">
+            <div class="wrap">
+                <div>
+                    <p class="kicker">Credits</p>
+                    <h2 id="credits-title">With</h2>
+                </div>
+                <ul class="credits">
+                    {% for c in project.credits %}
+                    <li><span class="c-role">{{ c.role }}</span><span class="c-name serif">{{ c.name }}</span></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+        {% endif %}
+
+        <nav class="cs-pn" aria-label="Other projects">
+            {% for other, label, rel in ((prev, "Previous", "prev"), (next, "Next", "next")) %}
+            <div class="still-link {{ rel }}">
+                <div class="cs-pn-media">{{ cover(other) }}</div>
+                <p class="kicker">{{ label }}</p>
+                <a class="stretch serif" href="{{ url_for('work.detail', slug=other.slug) }}" rel="{{ rel }}">{{ other.name }}</a>
+            </div>
+            {% endfor %}
+        </nav>
+    </article>
+{% endblock %}

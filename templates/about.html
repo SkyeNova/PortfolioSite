@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block title %}About · Skye{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cine.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+{% endblock %}
+{% block body_class %}cine{% endblock %}
+
+{% macro still(s) -%}
+<figure class="bleed ab-bleed" data-reveal>
+    <img src="/images/{{ s.image }}" alt="{{ s.alt }}" width="{{ s.size[0] }}" height="{{ s.size[1] }}" loading="lazy">
+    {% if s.caption %}<figcaption class="wrap"><span>{{ s.caption }}</span></figcaption>{% endif %}
+</figure>
+{%- endmacro %}
+
+{% block content %}
+    <section class="cine-hero ab-hero" aria-labelledby="about-title">
+        {% if hero %}
+        <div class="cine-hero-media"><img src="/images/{{ hero.image }}" alt="{{ hero.alt }}" width="{{ hero.size[0] }}" height="{{ hero.size[1] }}" fetchpriority="high"></div>
+        {% endif %}
+        <div class="wrap cine-hero-inner">
+            <div class="ab-hero-text">
+                <p class="kicker">About</p>
+                <h1 id="about-title">I'm Skye. I design the thing, then <span class="serif">run the team</span> that builds it.</h1>
+                <p class="cine-lede">I'm a student, and since 2021 I've run Astrofox Studios. It started as a Minecraft event series. These days it makes Solaris, runs Callisto, and is building an original game we haven't announced yet. This page is the longer version of that.</p>
+            </div>
+            <figure class="ab-portrait">
+                <img src="/images/{{ portrait.image }}" alt="{{ portrait.alt }}" width="{{ portrait.size[0] }}" height="{{ portrait.size[1] }}">
+                <img class="ab-head" src="https://minotar.net/helm/{{ me }}/128.png" alt="My Minecraft head, {{ me }}" width="128" height="128">
+            </figure>
+        </div>
+    </section>
+
+    <section class="billing auto" aria-label="Current roles">
+        <div class="wrap">
+            <ul>
+                {% for h in hats %}
+                <li>
+                    <span class="b-title">{{ h.role }}</span>
+                    <span class="b-org serif">{{ h.org }}</span>
+                    {% if h.since %}<span class="b-since">{{ h.since }} to now</span>{% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+
+    <section id="story" aria-labelledby="story-title">
+        <div class="wrap">
+            <div class="sec-head">
+                <div>
+                    <p class="kicker">Story</p>
+                    <h2 id="story-title">How I got here</h2>
+                </div>
+            </div>
+            <p class="ab-intro">Most of it followed from the step before. We needed somewhere to run our own servers, so we started a host. Tropiclash didn't ship, so its systems went into Solaris.</p>
+            {% include "about/timeline.html" %}
+        </div>
+    </section>
+
+    {{ still(stills.lobby) }}
+
+    <section id="hats" aria-labelledby="hats-title">
+        <div class="wrap">
+            <div class="sec-head">
+                <div>
+                    <p class="kicker">Roles</p>
+                    <h2 id="hats-title">The hats</h2>
+                </div>
+            </div>
+            <p class="ab-intro">What each title means day to day.</p>
+            <ul class="ab-hats">
+                {% for h in hats %}
+                <li class="ab-hat{{ ' quiet' if not h.logo }}">
+                    {% if h.logo %}
+                    <span class="ab-logo"><img src="/images/{{ h.logo }}" alt="{{ h.logo_alt }}" width="{{ h.logo_size[0] }}" height="{{ h.logo_size[1] }}" loading="lazy"></span>
+                    {% else %}
+                    <span class="ab-logo blank" aria-hidden="true"><span class="serif">?</span></span>
+                    {% endif %}
+                    <div class="ab-hat-id">
+                        <h3>{% if h.url %}<a href="{{ h.url }}" target="_blank" rel="noopener">{{ h.org }}</a>{% else %}{{ h.org }}{% endif %}</h3>
+                        <p class="kicker">{{ h.role }}{% if h.since %} &nbsp;·&nbsp; {{ h.since }} to now{% endif %}</p>
+                    </div>
+                    <p class="ab-hat-body">{{ h.body }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+
+    <section id="team" aria-labelledby="team-title">
+        <div class="wrap">
+            <div class="sec-head">
+                <div>
+                    <p class="kicker">Team &nbsp;·&nbsp; {{ team_count }} people, counted once</p>
+                    <h2 id="team-title">Who I work with</h2>
+                </div>
+            </div>
+            <p class="ab-intro">Astrofox is small and most people are on more than one list. These are the groups as they appear on <a class="u" href="https://astrofoxstudios.com" target="_blank" rel="noopener">astrofoxstudios.com</a>.</p>
+            {% include "about/team.html" %}
+        </div>
+    </section>
+
+    {{ still(stills.management) }}
+
+    <section id="skills" aria-labelledby="skills-title">
+        <div class="wrap">
+            <div class="sec-head">
+                <div>
+                    <p class="kicker">Toolkit</p>
+                    <h2 id="skills-title">Skills</h2>
+                </div>
+            </div>
+            <dl class="ab-skills">
+                {% for g in skill_groups %}
+                <div>
+                    <dt class="serif">{{ g.group }}</dt>
+                    <dd><ul>{% for item in g["items"] %}<li>{{ item }}</li>{% endfor %}</ul></dd>
+                </div>
+                {% endfor %}
+            </dl>
+        </div>
+    </section>
+
+    <section id="contact" class="contact ab-contact" aria-labelledby="contact-title">
+        <div class="wrap">
+            <p class="kicker">Contact</p>
+            <h2 id="contact-title">Say hi</h2>
+            <p>The <a class="u" href="{{ discord_url }}" target="_blank" rel="noopener">Astrofox Discord</a> is the quickest way to reach me. I'm SkyeNova on GitHub and {{ me }} in Minecraft.</p>
+            <ul class="links">
+                {% for l in links %}
+                <li><a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+{% endblock %}

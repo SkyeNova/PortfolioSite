@@ -1,0 +1,18 @@
+<div class="ab-team">
+    {% for g in team_groups %}
+    <section class="ab-group" aria-labelledby="group-{{ loop.index }}">
+        <h3 id="group-{{ loop.index }}" class="serif">{{ g.name }}</h3>
+        <ul>
+            {% for m in g.members %}
+            <li{% if m.ign == me %} class="me"{% endif %}>
+                <img src="https://minotar.net/helm/{{ m.ign }}/128.png" alt="" width="128" height="128" loading="lazy">
+                <span class="ab-member">
+                    <span class="ab-name">{{ m.name }}{% if m.ign == me %} <small>me</small>{% endif %}</span>
+                    <span class="ab-what">{{ m.role }}</span>
+                </span>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endfor %}
+</div>

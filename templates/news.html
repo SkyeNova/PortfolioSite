@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% from "partials/news_item.html" import news_media, news_meta %}
+{% block title %}News · Skye{% endblock %}
+{% block description %}Announcements, updates and changelogs from Astrofox Studios, Callisto and Solaris, in one place.{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/news.css') }}">{% endblock %}
+
+{% block content %}
+    <section class="page-head">
+        <div class="wrap">
+            <p class="kicker">Newsroom</p>
+            <h1>News from the <span class="serif">studios</span></h1>
+            <p class="sub">Everything Astrofox, Callisto and Solaris have published, newest first. Each one opens on the site it came from.</p>
+            <nav class="filters" aria-label="Filter by site">
+                <a href="{{ url_for('news.index') }}"{% if not news.source %} aria-current="true"{% endif %}>All <small>{{ news.total }}</small></a>
+                {% for s in news.sources %}
+                <a href="{{ url_for('news.index', source=s.key) }}"{% if news.source == s.key %} aria-current="true"{% endif %}>{{ s.label }} <small>{{ s.count }}</small></a>
+                {% endfor %}
+            </nav>
+        </div>
+    </section>
+
+    {% for group in years %}{% set first_group = loop.first %}
+    <section class="news-year" aria-labelledby="y{{ group.year }}">
+        <div class="wrap">
+            <h2 id="y{{ group.year }}">{{ group.year }}</h2>
+            <ul class="news-grid">
+                {% for item in group["items"] %}
+                <li>
+                    <a href="{{ item.url }}" target="_blank" rel="noopener">
+                        {{ news_media(item, eager=(first_group and loop.index <= 3)) }}
+                        {{ news_meta(item) }}
+                        <h3>{{ item.title }}</h3>
+                        {% if item.summary %}<p>{{ item.summary }}</p>{% endif %}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+    {% else %}
+    <section><div class="wrap"><p>Nothing to show right now.</p></div></section>
+    {% endfor %}
+
+    <section class="news-foot">
+        <div class="wrap">
+            {% if hidden %}<p><a class="more" href="{{ url_for('news.index', source=news.source, all=1) }}">Show {{ hidden }} older</a></p>{% endif %}
+            <p>Sources: {% for s in news.sources %}<a class="u" href="{{ s.index }}" target="_blank" rel="noopener">{{ s.label }}</a>{{ ", " if not loop.last }}{% endfor %}. Checked every half hour.</p>
+            {% if news.offline %}<p>Showing a saved copy. The live sites couldn't be reached just now.</p>
+            {% elif news.partial %}<p>{% for s in news.sources if not s.live %}{{ s.label }}{{ ", " if not loop.last }}{% endfor %} couldn't be reached just now, so that part is a saved copy.</p>{% endif %}
+        </div>
+    </section>
+{% endblock %}

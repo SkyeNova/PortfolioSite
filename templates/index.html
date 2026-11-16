@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+{% from "partials/news_item.html" import news_media, news_meta %}
+
+{% block head %}
+<link rel="preload" as="image" href="/images/{{ stills.hero.image }}" fetchpriority="high">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/news.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cine.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+{% block body_class %}home{% endblock %}
+
+{% macro tile_media(p) -%}
+    {%- if p.style == "blank" -%}
+        <div class="img blank" aria-hidden="true">{{ p.placeholder }}</div>
+    {%- else -%}
+        <div class="img{{ ' logo' if p.style == 'logo' }}"><img src="/images/{{ p.image }}" alt="{{ p.alt }}" width="{{ p.size[0] }}" height="{{ p.size[1] }}" loading="lazy"></div>
+    {%- endif -%}
+{%- endmacro %}
+
+{% macro link(l) -%}
+    {%- if l.endpoint -%}
+    <a class="pill" href="{{ url_for(l.endpoint, slug=l.slug) }}">{{ l.label }}</a>
+    {%- else -%}
+    <a class="pill ext" href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }}</a>
+    {%- endif -%}
+{%- endmacro %}
+
+{% block content %}
+    <section class="front" aria-labelledby="hero-title">
+        <div class="front-media">
+            <img src="/images/{{ stills.hero.image }}" alt="{{ stills.hero.alt }}" width="{{ stills.hero.size[0] }}" height="{{ stills.hero.size[1] }}" fetchpriority="high">
+        </div>
+        <div class="wrap front-inner">
+            <p class="kicker"><b>Astrofox Studios</b> &nbsp;·&nbsp; {{ skye_title }}</p>
+            <h1 id="hero-title">Skye<span class="serif">Nova</span></h1>
+            <p class="front-lede">I run a game studio. We host game servers, run a competitive Minecraft server called <span class="serif">Solaris</span>, and are building our first original game. I lead the creative side of all of it.</p>
+            <div class="front-actions">
+                <a class="btn solid" href="#studio">The studio</a>
+                <a class="btn" href="{{ url_for('press.index') }}">Press kit</a>
+            </div>
+        </div>
+        <p class="front-caption wrap"><span>{{ stills.hero.caption }}</span></p>
+    </section>
+
+    <section class="billing" aria-label="What I do">
+        <div class="wrap">
+            <ul>
+                {% for r in roles %}
+                <li>
+                    <span class="b-title">{{ r.title }}</span>
+                    <span class="b-org serif">{{ r.org }}</span>
+                    {% if r.since %}<span class="b-since">{{ r.since }} to now</span>{% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+
+    <section id="studio" class="studio" aria-labelledby="studio-title">
+        <div class="wrap">
+            <div class="studio-head">
+                <div>
+                    <p class="kicker">The studio</p>
+                    <h2 id="studio-title"><img src="/images/{{ company.logo }}" alt="{{ company.name }}" width="{{ company.logo_size[0] }}" height="{{ company.logo_size[1] }}"></h2>
+                </div>
+                <div class="studio-about">
+                    <p>{{ company.line }}</p>
+                    <p class="studio-role"><span class="kicker">My role</span>{{ company.role }}, since {{ company.since }}</p>
+                    <p><a class="pill ext" href="{{ company.url }}" target="_blank" rel="noopener">{{ company.url_label }}</a></p>
+                </div>
+            </div>
+        </div>
+
+        <ol class="panels">
+            {% for d in divisions %}
+            <li class="panel panel-{{ d.key }}{{ ' no-art' if not d.image }}" data-reveal>
+                {% if d.image %}
+                <div class="panel-media"><img src="/images/{{ d.image }}" alt="{{ d.image_alt }}" width="{{ d.image_size[0] }}" height="{{ d.image_size[1] }}" loading="lazy"></div>
+                {% else %}
+                <p class="panel-blank serif" aria-hidden="true">Nothing to show yet.</p>
+                {% endif %}
+                <div class="panel-body">
+                    <p class="kicker"><b>Division {{ "%02d"|format(loop.index) }}</b> &nbsp;·&nbsp; {{ d.kind }}</p>
+                    <h3>
+                        {%- if d.logo and d.key == "callisto" -%}
+                        <img class="panel-wordmark" src="/images/{{ d.logo }}" alt="{{ d.logo_alt }}" width="{{ d.logo_size[0] }}" height="{{ d.logo_size[1] }}" loading="lazy">
+                        {%- else -%}
+                        {% if d.logo %}<img class="panel-mark" src="/images/{{ d.logo }}" alt="" width="{{ d.logo_size[0] }}" height="{{ d.logo_size[1] }}" loading="lazy">{% endif %}<span class="serif">{{ d.name }}</span>
+                        {%- endif -%}
+                    </h3>
+                    <p class="panel-line">{{ d.line }}</p>
+                    <dl class="panel-role">
+                        <dt class="kicker">My role</dt>
+                        <dd><strong>{{ d.role }}</strong>{{ d.role_note }}</dd>
+                    </dl>
+                    <p class="panel-links">{% for l in d.links %}{{ link(l) }}{% endfor %}</p>
+                </div>
+                {% if d.caption %}<p class="panel-caption">{{ d.caption }}</p>{% endif %}
+            </li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    {% if news and news["items"] %}
+    {% set lead = news["items"][0] %}
+    <section id="news" class="latest" aria-labelledby="news-title">
+        <div class="wrap">
+            <div class="sec-head">
+                <div>
+                    <p class="kicker">Newsroom</p>
+                    <h2 id="news-title">Latest from the studios</h2>
+                </div>
+                <a class="more" href="{{ url_for('news.index') }}">All {{ news.total }} posts</a>
+            </div>
+            <div class="latest-grid">
+                <a class="nw-lead" href="{{ lead.url }}" target="_blank" rel="noopener">
+                    {{ news_media(lead) }}
+                    <div class="nw-text">
+                        {{ news_meta(lead) }}
+                        <h3>{{ lead.title }}</h3>
+                        <p>{{ lead.summary }}</p>
+                    </div>
+                </a>
+                <ul class="nw-list">
+                    {% for item in news["items"][1:7] %}
+                    <li>
+                        <a href="{{ item.url }}" target="_blank" rel="noopener">
+                            {{ news_meta(item) }}
+                            <h3>{{ item.title }}</h3>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% if news.offline %}<p class="nw-note">Showing a saved copy. The live sites couldn't be reached just now.</p>{% endif %}
+        </div>
+    </section>
+    {% endif %}
+
+    <figure class="bleed" data-reveal>
+        <img src="/images/{{ stills.tower.image }}" alt="{{ stills.tower.alt }}" width="{{ stills.tower.size[0] }}" height="{{ stills.tower.size[1] }}" loading="lazy">
+        <figcaption class="wrap"><span>{{ stills.tower.caption }}</span></figcaption>
+    </figure>
+
+    <section id="work">
+        <div class="wrap">
+            <div class="sec-head">
+                <div>
+                    <p class="kicker">Selected work</p>
+                    <h2>Work</h2>
+                </div>
+                <a class="more" href="{{ url_for('work.index') }}">All of it</a>
+            </div>
+            <ul class="work">
+                {% for p in projects %}
+                <li class="tile{{ ' wide' if p.wide }}">
+                    <a href="{{ url_for('work.detail', slug=p.slug) }}">
+                        {{ tile_media(p) }}
+                        <div class="cap">
+                            <div><h3>{{ p.name }}</h3><p>{{ p.summary }}</p></div>
+                            <span class="st{{ " " ~ p.tone if p.tone }}">{{ p.status }}</span>
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            <p class="also">Also <a class="u" href="{{ also.url }}" target="_blank" rel="noopener">{{ also.name }}</a>, {{ also.text }}</p>
+        </div>
+    </section>
+
+    {% include "partials/github_card.html" %}
+
+    {% if posts %}
+    <section id="blog" class="journal" aria-labelledby="blog-title">
+        <div class="wrap">
+            <div class="sec-head">
+                <div>
+                    <p class="kicker">Blog</p>
+                    <h2 id="blog-title">Writing</h2>
+                </div>
+                <a class="more" href="{{ url_for('blog.index') }}">All posts</a>
+            </div>
+            <ul class="journal-list">
+                {% for p in posts %}
+                <li>
+                    <a href="{{ url_for('blog.post', slug=p.slug) }}">
+                        <time datetime="{{ p.date.isoformat() }}">{{ p.date_text }}</time>
+                        <h3>{{ p.title }}{% if p.draft %} <span class="draft">Draft</span>{% endif %}</h3>
+                        <p>{{ p.summary }}</p>
+                        <span class="read">{{ p.minutes }} min read</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+    {% endif %}
+
+    <section id="about" class="about-teaser">
+        <div class="wrap">
+            <div class="about">
+                <figure class="render">
+                    <img src="/images/press/skye-render.webp" alt="Skye's Minecraft character: pink hat, green and cream outfit, waving" width="700" height="1190" loading="lazy">
+                </figure>
+                <div class="about-text">
+                    <p class="kicker">About</p>
+                    <h2>I'm Skye.</h2>
+                    <p>I started with Minecraft events and ended up doing the brand, the interfaces and the art direction for everything the studio makes, and running the team that makes it. At <a class="u" href="https://callisto.host" target="_blank" rel="noopener">Callisto</a> I look after the software side.</p>
+                    <p>I like the whole of a thing to feel like <span class="serif">one person made it</span>, even when it wasn't.</p>
+                    <p class="more-links"><a class="more" href="{{ url_for('about.index') }}">More about me</a><a class="more" href="{{ url_for('press.index') }}">Press kit</a><a class="more" href="{{ url_for('activity.index') }}">What I've been committing</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="wrap">
+            <p class="kicker">Contact</p>
+            <h2>Get in touch</h2>
+            <p>The easiest place to find me is the <a class="u" href="{{ discord_url }}" target="_blank" rel="noopener">Astrofox Discord</a>. I'm SkyeNova on GitHub and SkyeNova_ in Minecraft.</p>
+            <ul class="links">
+                {% for l in links %}
+                <li><a href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} · Skye{% endblock %}
+{% block description %}{{ post.summary }}{% endblock %}
+{% block og_image %}https://skyenova.dev/images/{{ post.cover or "work/solaris-city.webp" }}{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
+<link rel="canonical" href="{{ canonical }}">
+{% if post.draft %}<meta name="robots" content="noindex">{% endif %}
+{% endblock %}
+
+{% block content %}
+    <article class="post">
+        <header class="post-head">
+            <div class="wrap narrow">
+                <p class="kicker"><a href="{{ url_for('blog.index') }}">Blog</a></p>
+                <h1>{{ post.title }}</h1>
+                <p class="post-meta"><time datetime="{{ post.date.isoformat() }}">{{ post.date_text }}</time><span>{{ post.minutes }} min read</span>{% if post.draft %}<span class="draft">Draft</span>{% endif %}</p>
+                {% if post.summary %}<p class="post-summary">{{ post.summary }}</p>{% endif %}
+            </div>
+            {% if post.cover %}
+            <figure class="post-hero wrap"><img src="/images/{{ post.cover }}" alt="{{ post.cover_alt }}"></figure>
+            {% endif %}
+        </header>
+
+        <div class="wrap narrow prose">
+            {{ post.html|safe }}
+        </div>
+
+        <footer class="wrap narrow post-foot">
+            {% if post.tags %}
+            <ul class="tags" aria-label="Tags">{% for t in post.tags %}<li><a href="{{ url_for('blog.index', tag=t|lower) }}">{{ t }}</a></li>{% endfor %}</ul>
+            {% endif %}
+            <nav class="post-nav" aria-label="More posts">
+                {% if newer %}<a href="{{ url_for('blog.post', slug=newer.slug) }}"><span class="kicker">Newer</span>{{ newer.title }}</a>{% else %}<span></span>{% endif %}
+                {% if older %}<a class="r" href="{{ url_for('blog.post', slug=older.slug) }}"><span class="kicker">Older</span>{{ older.title }}</a>{% endif %}
+            </nav>
+        </footer>
+    </article>
+
+    {% if giscus %}
+    <section class="comments" aria-labelledby="comments-title">
+        <div class="wrap narrow">
+            <h2 id="comments-title">Comments</h2>
+            <p class="comments-note">Comments run on GitHub Discussions, so you need a GitHub account to leave one.</p>
+            <div class="giscus"></div>
+            <script src="https://giscus.app/client.js"
+                data-repo="{{ giscus.repo }}"
+                data-repo-id="{{ giscus.repo_id }}"
+                data-category="{{ giscus.category }}"
+                data-category-id="{{ giscus.category_id }}"
+                data-mapping="pathname"
+                data-strict="1"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="top"
+                data-theme="dark_dimmed"
+                data-lang="en"
+                data-loading="lazy"
+                crossorigin="anonymous"
+                async></script>
+            <noscript><p class="comments-note">Comments need JavaScript.</p></noscript>
+        </div>
+    </section>
+    {% endif %}
+{% endblock %}

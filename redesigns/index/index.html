@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Skye</title>
+<meta name="description" content="Skye. Founder and creative lead at Astrofox Studios, COO at Callisto, art director on Solaris.">
+<meta property="og:title" content="Skye">
+<meta property="og:description" content="Founder and creative lead at Astrofox Studios, COO at Callisto, art director on Solaris.">
+<meta property="og:image" content="https://skyenova.dev/images/work/solaris-city.webp">
+<link rel="icon" href="../../favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+    color-scheme: dark;
+    --bg: #0a0a14;
+    --surface: #14141f;
+    --ink: #ecebf5;
+    --ink-2: #a3a3bf;
+    --ink-3: #6f6f8c;
+    --line: rgba(200, 200, 255, 0.10);
+    --accent: #77adff;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Geist', system-ui, -apple-system, sans-serif;
+    background: var(--bg); color: var(--ink);
+    font-size: 1rem; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'tnum';
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+ul, ol { list-style: none; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+.skip { position: absolute; left: -999px; top: 10px; background: var(--ink); color: var(--bg); padding: 8px 12px; z-index: 100; }
+.skip:focus { left: 10px; }
+
+.wrap { width: min(1120px, 100% - 32px); margin-inline: auto; }
+
+/* Text links: underline, nothing else */
+.u { border-bottom: 1px solid var(--ink-3); transition: border-color .15s; }
+.u:hover { border-color: var(--ink); }
+
+/* ---------- Top bar ---------- */
+.bar { padding: 22px 0; }
+.bar .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.bar .name { display: flex; align-items: center; gap: 10px; font-weight: 500; }
+.bar .name img { width: 20px; height: 20px; image-rendering: pixelated; border-radius: 3px; }
+.bar nav { display: flex; gap: 22px; }
+.bar nav a { color: var(--ink-2); font-size: .95rem; transition: color .15s; }
+.bar nav a:hover { color: var(--ink); }
+
+/* ---------- Hero ---------- */
+.hero { padding: 96px 0 72px; }
+.hero h1 { font-size: clamp(3.4rem, 10vw, 7.5rem); font-weight: 500; letter-spacing: -0.045em; line-height: .95; }
+.hero .lede { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px 64px; margin-top: 48px; align-items: start; }
+.hero .lede p { font-size: clamp(1.15rem, 1.6vw, 1.35rem); line-height: 1.45; color: var(--ink-2); max-width: 44ch; text-wrap: pretty; }
+.hero .lede p a { color: var(--ink); }
+.roles { border-top: 1px solid var(--line); }
+.roles li { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: .95rem; }
+.roles li span:first-child { color: var(--ink); }
+.roles li span:last-child { color: var(--ink-3); white-space: nowrap; }
+
+/* ---------- Sections ---------- */
+section { padding: 72px 0; }
+section h2 { font-size: .95rem; font-weight: 500; color: var(--ink-2); padding-bottom: 14px; border-bottom: 1px solid var(--line); margin-bottom: 32px; }
+
+/* ---------- Work ---------- */
+.work { display: grid; grid-template-columns: 1fr 1fr; gap: 48px 24px; }
+.work .wide { grid-column: 1 / -1; }
+.tile a, .tile > div { display: block; }
+.tile .img { aspect-ratio: 16 / 10; overflow: hidden; border-radius: 4px; background: var(--surface); }
+.tile .img img { width: 100%; height: 100%; object-fit: cover; transition: opacity .2s; }
+.wide .img { aspect-ratio: 2 / 1; }
+.tile a:hover .img img { opacity: .9; }
+.tile .img.logo { display: grid; place-items: center; }
+.tile .img.logo img { width: 26%; height: auto; max-width: 150px; object-fit: contain; }
+.tile .img.blank { display: grid; place-items: center; color: var(--ink-3); font-size: .95rem; padding: 24px; text-align: center; }
+.tile .cap { display: flex; justify-content: space-between; gap: 16px; margin-top: 14px; align-items: baseline; }
+.tile h3 { font-size: 1.05rem; font-weight: 500; }
+.tile a:hover h3 { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--ink-3); }
+.tile .cap p { color: var(--ink-2); font-size: .95rem; margin-top: 2px; }
+.tile .st { color: var(--ink-3); font-size: .9rem; white-space: nowrap; }
+.also { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--ink-2); font-size: .95rem; max-width: 60ch; }
+.also a { color: var(--ink); }
+
+/* Second Solaris image, on its own */
+.still { padding: 0 0 72px; }
+.still img { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; border-radius: 4px; }
+.still figcaption { color: var(--ink-3); font-size: .9rem; margin-top: 12px; }
+
+/* ---------- Timeline ---------- */
+.tl li { display: grid; grid-template-columns: 80px 220px 1fr; gap: 16px 24px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.tl .yr { color: var(--ink-3); }
+.tl h3 { font-size: 1rem; font-weight: 500; }
+.tl p { color: var(--ink-2); max-width: 56ch; }
+
+/* ---------- About ---------- */
+.about { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 48px; align-items: start; }
+.about-text p { font-size: 1.1rem; line-height: 1.55; color: var(--ink-2); max-width: 56ch; margin-bottom: 20px; text-wrap: pretty; }
+.about-text p a { color: var(--ink); }
+.skills { margin-top: 36px; border-top: 1px solid var(--line); max-width: 56ch; }
+.skills div { display: grid; grid-template-columns: 80px 1fr; gap: 24px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: .95rem; }
+.skills dt { color: var(--ink-3); }
+.skills dd { color: var(--ink-2); }
+.photo img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; }
+.photo figcaption { color: var(--ink-3); font-size: .9rem; margin-top: 10px; }
+
+/* ---------- Contact ---------- */
+.contact p { font-size: 1.1rem; color: var(--ink-2); max-width: 52ch; line-height: 1.55; text-wrap: pretty; }
+.contact p a { color: var(--ink); }
+.links { display: flex; gap: 28px; margin-top: 32px; flex-wrap: wrap; }
+.links a { color: var(--ink-2); font-size: .95rem; transition: color .15s; }
+.links a:hover { color: var(--ink); }
+
+footer { padding: 48px 0 40px; border-top: 1px solid var(--line); }
+footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--ink-3); font-size: .9rem; }
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; }
+}
+
+@media (max-width: 820px) {
+    .hero { padding: 64px 0 56px; }
+    .hero .lede { grid-template-columns: 1fr; gap: 28px; margin-top: 36px; }
+    .about { grid-template-columns: 1fr; gap: 36px; }
+    .photo { order: -1; max-width: 160px; }
+    .tl li { grid-template-columns: 56px 1fr; }
+    .tl p { grid-column: 2; }
+}
+@media (max-width: 600px) {
+    section { padding: 56px 0; }
+    .still { padding: 0 0 56px; }
+    .work { grid-template-columns: 1fr; gap: 36px; }
+    .wide .img { aspect-ratio: 16 / 10; }
+    .tile .img.logo img { width: 30%; }
+    .tile .cap { flex-direction: column; gap: 4px; }
+    .still img { aspect-ratio: 16 / 10; }
+    .skills div { grid-template-columns: 64px 1fr; gap: 16px; }
+    .bar nav { gap: 16px; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="bar">
+    <div class="wrap">
+        <a href="#" class="name"><img src="https://minotar.net/helm/SkyeNova_/64.png" alt="" width="20" height="20">Skye</a>
+        <nav aria-label="Primary">
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </div>
+</header>
+
+<main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+        <div class="wrap">
+            <h1 id="hero-title">Skye</h1>
+            <div class="lede">
+                <p>I design and build things, mostly games and the infrastructure that runs them. I got into it through Minecraft and have been running a studio since 2021. Right now I'm leading an original game that we haven't announced yet.</p>
+                <ul class="roles">
+                    <li><span>Astrofox Studios, CEO, founder and creative lead</span><span>2021–</span></li>
+                    <li><span>Callisto, COO and head of software</span><span>2023–</span></li>
+                    <li><span>Solaris, art director</span><span>2024–</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="work">
+        <div class="wrap">
+            <h2>Work</h2>
+            <ul class="work">
+                <li class="tile wide">
+                    <a href="https://playsolaris.net" target="_blank" rel="noopener">
+                        <div class="img"><img src="../../images/work/solaris-city.webp" alt="Solaris: a city plaza at dusk with a fountain, tall dark towers and pink-lit buildings" width="1600" height="901"></div>
+                        <div class="cap">
+                            <div><h3>Solaris</h3><p>Competitive Minecraft Java server with ranked play and seasons. Art direction, identity and UI.</p></div>
+                            <span class="st">Early Access</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="tile">
+                    <a href="https://callisto.host" target="_blank" rel="noopener">
+                        <div class="img logo"><img src="../../images/work/callisto-logo.webp" alt="Callisto logo: a ringed planet in blue and purple" width="400" height="400" loading="lazy"></div>
+                        <div class="cap">
+                            <div><h3>Callisto</h3><p>Hosting and infrastructure for developers. Operations, software, the site and the panel.</p></div>
+                            <span class="st">Live</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="tile">
+                    <div>
+                        <div class="img blank" aria-hidden="true">Nothing to show yet.</div>
+                        <div class="cap">
+                            <div><h3>Unannounced game</h3><p>An original game, not Minecraft. I'm leading it.</p></div>
+                            <span class="st">In development</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="tile">
+                    <a href="https://destinygames.org" target="_blank" rel="noopener">
+                        <div class="img"><img src="../../images/work/destiny.webp" alt="Destiny Games: a pink dome arena in a Minecraft valley, with the Destiny Games wordmark" width="1400" height="788" loading="lazy"></div>
+                        <div class="cap">
+                            <div><h3>Destiny Games</h3><p>Minecraft event series. Where the studio started.</p></div>
+                            <span class="st">2021, legacy</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="tile">
+                    <div>
+                        <div class="img"><img src="../../images/work/tropiclash.webp" alt="Tropiclash: a tropical island with a volcano, seen from the air, with the Tropiclash Season 1 wordmark" width="1400" height="788" loading="lazy"></div>
+                        <div class="cap">
+                            <div><h3>Tropiclash</h3><p>Survival prototype. Never shipped. Its systems became the base for Solaris.</p></div>
+                            <span class="st">2022</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <p class="also">Also <a class="u" href="https://crescent.exphost.net" target="_blank" rel="noopener">Crescent</a>, a self-hosted finance dashboard for Pterodactyl and Paymenter.</p>
+        </div>
+    </section>
+
+    <figure class="still">
+        <div class="wrap">
+            <img src="../../images/work/solaris-cataclysm.webp" alt="Solaris: timber houses on a riverbank below a pine forest" width="1600" height="901" loading="lazy">
+            <figcaption>Solaris, in game. Timber houses on the river.</figcaption>
+        </div>
+    </figure>
+
+    <section id="timeline">
+        <div class="wrap">
+            <h2>Timeline</h2>
+            <ol class="tl">
+                <li><span class="yr">2021</span><h3>Destiny Games</h3><p>A Minecraft event series. The studio and its community started here.</p></li>
+                <li><span class="yr">2022</span><h3>Tropiclash</h3><p>A survival prototype. It didn't ship, but its systems became the base for Solaris.</p></li>
+                <li><span class="yr">2023</span><h3>ExpHost</h3><p>We started hosting our own servers, then other people's.</p></li>
+                <li><span class="yr">2024</span><h3>Solaris</h3><p>Enters development.</p></li>
+                <li><span class="yr">2026</span><h3>Astrofox, Callisto, Solaris</h3><p>The studio rebrands. ExpHost becomes Callisto. Solaris opens in Early Access.</p></li>
+            </ol>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="wrap">
+            <h2>About</h2>
+            <div class="about">
+            <div class="about-text">
+                <p>I'm Skye. I started with Minecraft events and ended up doing the brand, the interfaces and the art direction for everything the studio makes, and running the team that makes it. At <a class="u" href="https://callisto.host" target="_blank" rel="noopener">Callisto</a> I look after the software side.</p>
+                <p>I like the whole of a thing to feel like one person made it, even when it wasn't.</p>
+                <dl class="skills">
+                    <div><dt>Design</dt><dd>UI and UX, brand identity, art direction</dd></div>
+                    <div><dt>Code</dt><dd>HTML and CSS, JavaScript, Python and Flask. Learning C#.</dd></div>
+                    <div><dt>Other</dt><dd>Running teams, operations, community</dd></div>
+                </dl>
+            </div>
+            <figure class="photo">
+                <img src="../../images/me.jpg" alt="Skye, a mirror selfie" width="399" height="399" loading="lazy">
+            </figure>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="wrap">
+            <h2>Contact</h2>
+            <p>The easiest place to find me is the <a class="u" href="https://discord.gg/vkFQDhJE9P" target="_blank" rel="noopener">Astrofox Discord</a>. I'm SkyeNova on GitHub and SkyeNova_ in Minecraft.</p>
+            <ul class="links">
+                <li><a href="https://discord.gg/vkFQDhJE9P" target="_blank" rel="noopener">Discord</a></li>
+                <li><a href="https://github.com/SkyeNova" target="_blank" rel="noopener">GitHub</a></li>
+                <li><a href="https://astrofoxstudios.com" target="_blank" rel="noopener">astrofoxstudios.com</a></li>
+                <li><a href="https://callisto.host" target="_blank" rel="noopener">callisto.host</a></li>
+            </ul>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="wrap"><span>© 2026 Skye</span><span>skyenova.dev</span></div>
+</footer>
+</body>
+</html>

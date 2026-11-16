@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+    <title>Skye's blog</title>
+    <link>{{ site }}/blog/</link>
+    <atom:link href="{{ site }}/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Notes from Skye, {{ skye_tagline }}.</description>
+    <language>en-gb</language>
+    <lastBuildDate>{{ built }}</lastBuildDate>
+    {% for p in posts %}
+    <item>
+        <title>{{ p.title }}</title>
+        <link>{{ site }}{{ url_for('blog.post', slug=p.slug) }}</link>
+        <guid isPermaLink="true">{{ site }}{{ url_for('blog.post', slug=p.slug) }}</guid>
+        <pubDate>{{ p.pub }}</pubDate>
+        <description>{{ p.summary }}</description>
+        {% for t in p.tags %}<category>{{ t }}</category>
+        {% endfor %}
+    </item>
+    {% endfor %}
+</channel>
+</rss>

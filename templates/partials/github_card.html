@@ -1,0 +1,24 @@
+{#- Homepage teaser for /activity/. `gh` comes from sections/activity.py's
+    context processor and is None when there is nothing real to show. -#}
+{% if gh %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/github-card.css') }}">
+<section class="gh" aria-label="GitHub activity">
+    <div class="wrap">
+        <a class="gh-card" href="{{ url_for('activity.index') }}">
+            <div class="gh-grid" aria-hidden="true">
+                {%- for col in gh.grid %}<div>{% for c in col %}<i class="l{{ c.level }}{{ ' f' if c.future }}"></i>{% endfor %}</div>{% endfor -%}
+            </div>
+            <div class="gh-text">
+                <p class="gh-big"><span class="serif">{{ "{:,}".format(gh.year_total) }}</span> contributions on GitHub in {{ gh.year }}</p>
+                <p class="gh-sub">
+                    {%- if gh.demo %}Sample data · {% endif -%}
+                    Last active {{ gh.last_active }}
+                    {%- if gh.streak >= 2 %} · {{ gh.streak }}-day streak{% endif -%}
+                    {%- if gh.top_language %} · mostly {{ gh.top_language }} this month{% endif %} · most of it private
+                </p>
+            </div>
+            <span class="gh-go">Activity <span aria-hidden="true">&rarr;</span></span>
+        </a>
+    </div>
+</section>
+{% endif %}

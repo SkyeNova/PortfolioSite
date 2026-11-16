@@ -1,0 +1,244 @@
+:root {
+    color-scheme: dark;
+    --bg: #0a0a14;
+    --surface: #14141f;
+    --surface-2: #1a1a28;
+    --ink: #ecebf5;
+    --ink-2: #a3a3bf;
+    --ink-3: #6f6f8c;
+    --line: rgba(200, 200, 255, 0.10);
+    --blue: #8fb6ff;
+    --pink: #e0a2ee;
+    --sans: 'Poppins', system-ui, -apple-system, sans-serif;
+    --serif: 'Instrument Serif', Georgia, serif;
+    --r-lg: 28px;
+    --r-md: 20px;
+    --r-sm: 14px;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 96px; } /* clears the sticky bar on anchor jumps */
+body {
+    font-family: var(--sans);
+    background: var(--bg); color: var(--ink);
+    font-size: 1rem; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+ul, ol { list-style: none; }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 6px; }
+.skip { position: absolute; left: -999px; top: 10px; background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 999px; z-index: 100; }
+.skip:focus { left: 10px; }
+
+.wrap { width: min(1120px, 100% - 32px); margin-inline: auto; }
+.serif { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+
+/* Text links: soft underline */
+.u { text-decoration: underline; text-decoration-color: var(--ink-3); text-decoration-thickness: 1px; text-underline-offset: 4px; transition: text-decoration-color .2s; }
+.u:hover { text-decoration-color: var(--pink); }
+
+/* ---------- Top bar: a pill ----------
+   Sticky like callisto.host: it stays at the top, and once the page scrolls
+   (site.js adds .scrolled) the pill turns to frosted glass with a shadow.
+   Only colours change, never the bar's height, so nothing below it jumps.
+   Pages with a full-bleed hero (body.home, body.cine) float the pill over the
+   picture; there it's fixed rather than absolute, so it still follows the
+   scroll. body.x beats the page sheets' `.home .bar` / `.cine .bar`. */
+.bar { padding: 18px 0; position: sticky; top: 0; z-index: 50; pointer-events: none; }
+body.home .bar, body.cine .bar { position: fixed; left: 0; right: 0; top: 0; }
+.bar .wrap {
+    display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    padding: 8px 8px 8px 16px;
+    border: 1px solid var(--line); border-radius: 999px;
+    background: rgba(14, 14, 24, 0.82);
+    pointer-events: auto;
+    transition: background .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease);
+}
+.bar.scrolled .wrap {
+    background: rgba(14, 14, 24, 0.8);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    backdrop-filter: blur(14px) saturate(1.3);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 10px 34px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .bar.scrolled .wrap { background: rgba(14, 14, 24, 0.94); }
+}
+@media (prefers-reduced-motion: reduce) { .bar .wrap { transition: none; } }
+/* Wordmark: Poppins runs larger than Instrument Serif at the same size, so the
+   serif half is scaled up and nudged onto the same cap line. Same ratio in
+   the hero and the footer. */
+.bar .name { display: flex; align-items: baseline; font-weight: 500; font-size: 1.05rem; letter-spacing: -0.01em; line-height: 1; }
+.bar .name i { color: var(--pink); font-size: 1.06em; }
+.bar nav { display: flex; gap: 2px; align-items: center; }
+.bar nav a { color: var(--ink-2); font-size: .92rem; padding: 7px 13px; border-radius: 999px; transition: color .2s, background .2s; }
+.bar nav a:hover { color: var(--ink); background: var(--surface-2); }
+.bar nav a.cta { color: var(--bg); background: var(--ink); margin-left: 6px; font-weight: 500; }
+.bar nav a.cta:hover { background: var(--pink); color: var(--bg); }
+.bar .menu { display: none; font: inherit; font-size: .92rem; color: var(--ink); background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 7px 16px; cursor: pointer; }
+
+/* Small label used above headings and on stills: the "slate" */
+.kicker { font-size: .74rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-2); }
+.kicker b { font-weight: 500; color: var(--pink); }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 999px; border: 1px solid rgba(236, 235, 245, .34); color: var(--ink); font-size: .95rem; font-weight: 500; transition: background .2s, border-color .2s, color .2s; }
+.btn:hover { border-color: var(--ink); background: rgba(236, 235, 245, .08); }
+.btn.solid { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.btn.solid:hover { background: var(--pink); border-color: var(--pink); }
+
+/* Scroll reveal (static/js/site.js). Only hidden once JS has opted in. */
+[data-reveal].pre { opacity: 0; transform: translateY(18px); }
+[data-reveal] { transition: opacity .8s var(--ease), transform .8s var(--ease); }
+[data-reveal].in { opacity: 1; transform: none; }
+
+/* Page header for inner pages */
+.page-head { padding: 72px 0 40px; }
+.page-head h1 { font-size: clamp(2.8rem, 8vw, 5.4rem); font-weight: 600; letter-spacing: -0.045em; line-height: .98; margin-top: 14px; }
+.page-head h1 .serif { color: var(--pink); letter-spacing: -0.02em; }
+.page-head .sub { margin-top: 22px; color: var(--ink-2); font-size: clamp(1.05rem, 1.4vw, 1.2rem); max-width: 56ch; text-wrap: pretty; }
+
+/* ---------- Sections ---------- */
+section { padding: 80px 0; }
+section h2 {
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    font-size: clamp(2.6rem, 5.5vw, 4rem); line-height: 1; letter-spacing: -0.01em;
+    margin-bottom: 36px;
+}
+section h2 small { font-family: var(--sans); font-style: normal; font-size: .9rem; color: var(--ink-3); letter-spacing: 0; margin-left: 14px; vertical-align: middle; }
+
+/* ---------- Work ---------- */
+.work { display: grid; grid-template-columns: 1fr 1fr; gap: 44px 24px; }
+.work .wide { grid-column: 1 / -1; }
+.tile a, .tile > div { display: block; }
+.tile .img { aspect-ratio: 16 / 10; overflow: hidden; border-radius: var(--r-lg); background: var(--surface); }
+.tile .img img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+.wide .img { aspect-ratio: 2 / 1; }
+.tile a:hover .img img { transform: scale(1.025); }
+.tile .img.logo { display: grid; place-items: center; background: radial-gradient(closest-side, var(--surface-2), var(--surface)); }
+.tile .img.logo img { width: 26%; height: auto; max-width: 150px; object-fit: contain; }
+.tile a:hover .img.logo img { transform: scale(1.06); }
+.tile .img.blank { display: grid; place-items: center; color: var(--ink-3); padding: 24px; text-align: center; font-family: var(--serif); font-style: italic; font-size: 1.6rem; }
+.tile .cap { display: flex; justify-content: space-between; gap: 16px; margin-top: 16px; padding: 0 6px; align-items: flex-start; }
+.tile h3 { font-size: 1.1rem; font-weight: 500; }
+.tile .cap p { color: var(--ink-2); font-size: .93rem; margin-top: 2px; }
+.tile .st { color: var(--ink-2); font-size: .8rem; white-space: nowrap; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; }
+.tile .st.live { color: #8fe0b0; border-color: rgba(143, 224, 176, .28); }
+.tile .st.dev { color: #f1cf8a; border-color: rgba(241, 207, 138, .28); }
+.also { margin-top: 48px; padding: 16px 22px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-2); font-size: .93rem; width: fit-content; max-width: 100%; }
+.also a { color: var(--ink); }
+
+/* Second Solaris image, on its own */
+.still { padding: 0 0 80px; }
+.still img { width: 100%; height: auto; aspect-ratio: 21 / 9; object-fit: cover; border-radius: var(--r-lg); }
+.still figcaption { color: var(--ink-3); font-size: .9rem; margin-top: 12px; padding: 0 6px; }
+
+/* ---------- Timeline ---------- */
+.tl { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 8px 28px; }
+.tl li { display: grid; grid-template-columns: 90px 220px 1fr; gap: 6px 24px; padding: 18px 0; align-items: baseline; }
+.tl li + li { border-top: 1px solid var(--line); }
+.tl .yr { font-family: var(--serif); font-style: italic; font-size: 1.6rem; line-height: 1; color: var(--blue); }
+.tl h3 { font-size: 1rem; font-weight: 500; }
+.tl p { color: var(--ink-2); max-width: 56ch; font-size: .95rem; }
+
+/* ---------- About ---------- */
+.about { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 56px; align-items: start; }
+.about-text p { font-size: 1.08rem; line-height: 1.7; color: var(--ink-2); max-width: 56ch; margin-bottom: 20px; text-wrap: pretty; }
+.about-text p a { color: var(--ink); }
+.about-text p .serif { color: var(--ink); font-size: 1.2em; }
+.skills { margin-top: 36px; max-width: 60ch; display: grid; gap: 10px; }
+.skills div { display: grid; grid-template-columns: 84px 1fr; gap: 20px; padding: 12px 20px; font-size: .93rem; background: var(--surface); border-radius: var(--r-sm); }
+.skills dt { color: var(--ink-3); }
+.skills dd { color: var(--ink-2); }
+/* Arch-topped portrait */
+.photo img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 999px 999px var(--r-lg) var(--r-lg); }
+
+/* ---------- Contact ---------- */
+.contact p { font-size: 1.08rem; color: var(--ink-2); max-width: 52ch; line-height: 1.7; text-wrap: pretty; }
+.contact p a { color: var(--ink); }
+.links { display: flex; gap: 10px; margin-top: 32px; flex-wrap: wrap; }
+.links a { display: inline-block; color: var(--ink-2); font-size: .93rem; padding: 10px 20px; border: 1px solid var(--line); border-radius: 999px; transition: color .2s, border-color .2s, background .2s; }
+.links a:hover { color: var(--ink); border-color: rgba(224, 162, 238, .4); background: var(--surface); }
+.links li:first-child a { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.links li:first-child a:hover { background: var(--pink); border-color: var(--pink); }
+
+.foot { padding: 72px 0 40px; margin-top: 40px; border-top: 1px solid var(--line); background: #08080f; }
+.foot-top { display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)); gap: 40px 32px; }
+.foot-name { font-size: 1.7rem; font-weight: 600; letter-spacing: -0.04em; line-height: 1; color: var(--ink); }
+.foot-name .serif { color: var(--pink); letter-spacing: -0.02em; font-size: 1.06em; } /* matches the header wordmark */
+.foot-id p + p { color: var(--ink-2); font-size: .93rem; margin-top: 12px; max-width: 26ch; }
+.foot h2 { font-family: var(--sans); font-style: normal; font-size: .74rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 14px; }
+.foot li + li { margin-top: 8px; }
+.foot li a { color: var(--ink-2); font-size: .93rem; transition: color .2s; }
+.foot li a:hover { color: var(--ink); }
+.foot-base { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--ink-3); font-size: .88rem; margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line); }
+
+/* ---------- 404 ---------- */
+.notfound { padding: 104px 0 120px; }
+.notfound h1 { font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 600; letter-spacing: -0.045em; line-height: .95; }
+.notfound h1 .serif { color: var(--pink); }
+.notfound p { margin-top: 24px; color: var(--ink-2); font-size: 1.08rem; }
+.notfound p a { color: var(--ink); }
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+    [data-reveal].pre { opacity: 1; transform: none; }
+}
+
+@media (max-width: 820px) {
+    .hero { padding: 72px 0 56px; }
+    .hero .lede { grid-template-columns: 1fr; gap: 28px; margin-top: 36px; }
+    .about { grid-template-columns: 1fr; gap: 36px; }
+    .photo { order: -1; max-width: 180px; }
+    .tl { padding: 6px 20px; }
+    .tl li { grid-template-columns: 64px 1fr; }
+    .tl p { grid-column: 2; }
+}
+@media (max-width: 600px) {
+    section { padding: 60px 0; }
+    .still { padding: 0 0 60px; }
+    .work { grid-template-columns: 1fr; gap: 36px; }
+    .wide .img { aspect-ratio: 16 / 10; }
+    .tile .img, .still img { border-radius: var(--r-md); }
+    .tile .img.logo img { width: 30%; }
+    .tile .cap { flex-direction: column; gap: 8px; }
+    .still img { aspect-ratio: 16 / 10; }
+    .skills div { grid-template-columns: 64px 1fr; gap: 14px; padding: 12px 16px; }
+    .also { border-radius: var(--r-md); }
+}
+
+/* Current page in the nav */
+.bar nav a[aria-current="page"] { color: var(--ink); background: var(--surface-2); }
+
+/* Nav collapses to a menu button */
+@media (max-width: 860px) {
+    .js .bar .menu { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; }
+    .bar { padding: 12px 0; }
+    .bar .wrap { flex-wrap: wrap; border-radius: 28px; padding: 6px 6px 6px 18px; }
+    .bar .name { min-height: 44px; align-items: center; }
+    .bar nav { flex-wrap: wrap; width: 100%; padding: 6px 0 4px; gap: 4px; }
+    .js .bar nav { display: none; flex-direction: column; align-items: stretch; padding: 8px 6px 6px 0; }
+    .js .bar.open nav { display: flex; }
+    /* Open: solid, and scrollable if the screen is short (landscape phones). */
+    .js .bar.open .wrap { background: #0e0e18; border-color: rgba(255, 255, 255, .14); max-height: calc(100svh - 24px); overflow-y: auto; overscroll-behavior: contain; }
+    .js .bar nav a { padding: 12px 14px; font-size: 1.05rem; min-height: 48px; display: flex; align-items: center; margin-left: -14px; }
+    .js .bar nav a.cta { margin: 8px 0 4px; justify-content: center; }
+    .foot-top { grid-template-columns: 1fr 1fr; }
+    .foot-id { grid-column: 1 / -1; }
+    .foot li + li { margin-top: 0; }
+    .foot li a { display: block; padding: 8px 0; }
+    .foot h2 { margin-bottom: 8px; }
+}
+@media (max-width: 420px) {
+    .foot-top { grid-template-columns: 1fr 1fr; gap: 32px 20px; }
+}
+
+/* Pill links to the other pages */
+.more-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.more { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink); font-size: .93rem; transition: border-color .2s, background .2s; }
+.more::after { content: '→'; color: var(--ink-3); transition: transform .3s var(--ease), color .2s; }
+.more:hover { border-color: rgba(224, 162, 238, .4); background: var(--surface); }
+.more:hover::after { transform: translateX(3px); color: var(--pink); }
+.about-teaser .photo { max-width: 200px; justify-self: end; }

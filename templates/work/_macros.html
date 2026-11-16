@@ -1,0 +1,19 @@
+{# Shared bits for the work pages. #}
+
+{# Cover image for a project: the case-study `cover` if set, else the homepage image.
+   `blank` projects get a text tile. `eager` skips lazy loading (above the fold). #}
+{% macro cover(p, eager=false) -%}
+    {%- set c = p.cover or p -%}
+    {%- if p.style == "blank" -%}
+        <div class="w-blank" aria-hidden="true"><span class="serif">{{ p.placeholder }}</span></div>
+    {%- elif not p.cover and p.style == "logo" -%}
+        <div class="w-logo"><img src="/images/{{ p.image }}" alt="{{ p.alt }}" width="{{ p.size[0] }}" height="{{ p.size[1] }}"{% if not eager %} loading="lazy"{% endif %}></div>
+    {%- else -%}
+        <img src="/images/{{ c.image }}" alt="{{ c.alt }}" width="{{ c.size[0] }}" height="{{ c.size[1] }}"{% if not eager %} loading="lazy"{% endif %}>
+    {%- endif -%}
+{%- endmacro %}
+
+{# Status tag, same tones as the homepage tiles. #}
+{% macro status(p) -%}
+    <span class="tag{{ ' ' ~ p.tone if p.tone }}">{{ p.status }}</span>
+{%- endmacro %}

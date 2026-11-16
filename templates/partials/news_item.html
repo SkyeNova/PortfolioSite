@@ -1,0 +1,16 @@
+{#- One news item's picture: local thumbnail, else the remote image, else a
+    tinted plate with the source's name. `item` comes from studionews. -#}
+{% macro news_media(item, eager=False) -%}
+<div class="nw-img src-{{ item.source }}">
+    <span class="nw-plate" aria-hidden="true">{{ item.source_label }}</span>
+    {%- if item.thumb %}
+    <img src="/images/{{ item.thumb }}" alt="" width="640" height="400"{{ '' if eager else ' loading="lazy"'|safe }}>
+    {%- elif item.image %}
+    <img src="{{ item.image }}" alt="" width="640" height="400" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove()">
+    {%- endif %}
+</div>
+{%- endmacro %}
+
+{% macro news_meta(item) -%}
+<p class="nw-meta"><span class="nw-src src-{{ item.source }}">{{ item.source_label }}</span><time datetime="{{ item.date }}">{{ item.date_text }}</time>{% if item.kind == "changelog" %}<span class="nw-chip">{{ item.version or "Update" }}</span>{% endif %}</p>
+{%- endmacro %}

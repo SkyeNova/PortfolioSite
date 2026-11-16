@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% from "work/_macros.html" import cover, status %}
+{% block title %}Work · Skye{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cine.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/work.css') }}">
+{% endblock %}
+
+{% block content %}
+    <header class="page-head w-head">
+        <div class="wrap">
+            <p class="kicker">Selected work</p>
+            <h1>Work<span class="serif">.</span></h1>
+            <p class="sub">Five projects since 2021. <span class="serif">One of them I can't show you yet.</span></p>
+        </div>
+    </header>
+
+    <ol class="panels wl">
+        {% for p in projects %}
+        <li class="panel{{ ' no-art' if p.style == 'blank' }}"{% if not loop.first %} data-reveal{% endif %}>
+            {% if p.style == "blank" %}
+            <p class="panel-blank serif" aria-hidden="true">{{ p.placeholder }}</p>
+            {% else %}
+            <div class="panel-media">{{ cover(p, eager=loop.first) }}</div>
+            {% endif %}
+            <div class="panel-body">
+                <p class="kicker"><b>{{ '%02d' % loop.index }}</b> &nbsp;·&nbsp; {{ p.year }}</p>
+                <h2><a class="stretch serif" href="{{ url_for('work.detail', slug=p.slug) }}">{{ p.name }}</a></h2>
+                <p class="panel-line">{{ p.summary }}</p>
+                <dl class="panel-role">
+                    <dt class="kicker">My role</dt>
+                    <dd><strong>{{ p.role }}</strong></dd>
+                </dl>
+                <p class="panel-links">{{ status(p) }}<span class="wl-go" aria-hidden="true">Case study</span></p>
+            </div>
+        </li>
+        {% endfor %}
+    </ol>
+
+    <div class="wrap">
+        <aside class="w-also" aria-labelledby="also-title">
+            <div class="w-also-text">
+                <p class="kicker">Also</p>
+                <h2 id="also-title">{{ also.name }}</h2>
+                <p>{{ also.detail }}</p>
+            </div>
+            <ul class="w-also-meta">
+                <li class="slate">{{ also.year }} &nbsp;·&nbsp; {{ also.status }}</li>
+                <li><a class="pill ext" href="{{ also.url }}" target="_blank" rel="noopener">{{ also.url|replace('https://', '') }}</a></li>
+                <li><a class="pill ext" href="{{ also.github }}" target="_blank" rel="noopener">GitHub</a></li>
+            </ul>
+        </aside>
+    </div>
+{% endblock %}

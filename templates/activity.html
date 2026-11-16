@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% block title %}Activity · Skye{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cine.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/activity.css') }}">
+{% endblock %}
+
+{% set weekday_short = ["Mon", "", "Wed", "", "Fri", "", "Sun"] %}
+{% set weekday_full = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] %}
+
+{% block content %}
+<header class="page-head act-head">
+    <div class="wrap">
+        <p class="kicker">GitHub &nbsp;·&nbsp; {{ act.year }}</p>
+        <h1 id="act-title">Activity<span class="serif">.</span></h1>
+        <p class="sub">Most of my work is in private repos, so it shows up here as counts only. The public bits link through to <a class="u" href="{{ act.profile_url }}" target="_blank" rel="noopener">GitHub</a>.</p>
+        {% if act.demo %}
+        <p class="act-note" role="status">Sample data. The live numbers show once the site has a GitHub token.</p>
+        {% endif %}
+    </div>
+</header>
+
+{# ---------- Now: the headline numbers, as a billing block ---------- #}
+<section class="billing auto act-now" aria-label="Right now">
+    <div class="wrap">
+        <ul>
+            <li><span class="b-title">Last active</span><span class="b-org serif">{{ act.now.last_active }}</span></li>
+            <li><span class="b-title">Current streak</span><span class="b-org serif">{{ act.now.streak }} day{{ 's' if act.now.streak != 1 }}</span></li>
+            <li><span class="b-title">This week</span><span class="b-org serif">{{ act.now.this_week }}<small>contribution{{ 's' if act.now.this_week != 1 }}</small></span></li>
+            <li><span class="b-title">Longest streak</span><span class="b-org serif">{{ act.now.longest }} days{% if act.now.longest_range %}<small>{{ act.now.longest_range }}</small>{% endif %}</span></li>
+            {% if act.now.busiest %}
+            <li><span class="b-title">Busiest day in {{ act.year }}</span><span class="b-org serif">{{ act.now.busiest.count }}<small>{{ act.now.busiest.when }}</small></span></li>
+            {% endif %}
+            {% if act.now.top_language %}
+            <li><span class="b-title">Most of this month</span><span class="b-org serif">{{ act.now.top_language }}</span></li>
+            {% endif %}
+        </ul>
+    </div>
+</section>
+
+<section class="act" aria-label="Contributions and commits">
+    <div class="wrap">
+        <div class="act-grid">
+
+            {# ---------- Heatmap ---------- #}
+            <article class="act-card heat-card" aria-labelledby="heat-title">
+                <div class="heat-top">
+                    <nav class="years" aria-label="Year">
+                        {% for y in act.years %}
+                        <a href="{{ url_for('activity.index', year=y.year) }}"{% if y.current %} aria-current="page"{% endif %}>{{ y.year }}</a>
+                        {% endfor %}
+                    </nav>
+                    <p class="heat-total" id="heat-title">
+                        <strong>{{ "{:,}".format(act.grid.total) }}</strong> contributions in {{ act.year }}
+                        <span class="serif">includes private work</span>
+                    </p>
+                </div>
+
+                <div class="heat-scroll" tabindex="0" role="region" aria-label="Contributions in {{ act.year }}, by day">
+                    <table class="heat">
+                        <thead>
+                            <tr>
+                                <td></td>
+                                {% for m in act.grid.months %}
+                                <th scope="colgroup" colspan="{{ m.span }}">{% if m.span > 1 %}{{ m.label }}{% endif %}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in range(7) %}
+                            <tr>
+                                <th scope="row"><span aria-hidden="true">{{ weekday_short[i] }}</span><span class="vh">{{ weekday_full[i] }}</span></th>
+                                {% for week in act.grid.weeks %}{% set c = week[i] %}
+                                <td>{% if c.in_year and not c.future %}<span class="d l{{ c.level }}" title="{{ c.label }}"><span class="vh">{{ c.label }}</span></span>{% elif c.future %}<span class="d f" aria-hidden="true"></span>{% endif %}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="heat-foot">
+                    <span class="legend" aria-hidden="true">less <i class="d l0"></i><i class="d l1"></i><i class="d l2"></i><i class="d l3"></i><i class="d l4"></i> more</span>
+                    <span class="heat-meta">
+                        {% if act.demo %}sample data{% else %}{{ "{:,}".format(act.all_time) }} since {{ act.years[0].year }}{% if act.updated %} · {{ act.updated }}{% endif %}{% endif %}
+                    </span>
+                </div>
+            </article>
+
+            {# ---------- Rhythm ---------- #}
+            {% set wide = act.rhythm.kind == "hours" %}
+            <article class="act-card rhythm-card{{ ' full' if wide }}" aria-labelledby="rhythm-title">
+                <h3 id="rhythm-title">Rhythm <small>{% if act.rhythm.kind == "hours" %}{{ act.rhythm.total }} commits, last 90 days{% else %}contributions by weekday, last year{% endif %}</small></h3>
+                <p class="rhythm-cap serif">{{ act.rhythm.caption }}</p>
+                {% if act.rhythm.kind == "hours" %}
+                <div class="punch-scroll">
+                    <table class="punch" aria-label="Commits by weekday and hour">
+                        <tbody>
+                            {% for row in act.rhythm.rows %}
+                            <tr>
+                                <th scope="row">{{ row.label }}</th>
+                                {% for c in row.cells %}
+                                <td>{% if c.n %}<i style="--s:{{ c.size }}" title="{{ c.label }}"><span class="vh">{{ c.n }}</span></i>{% else %}<i class="z" aria-hidden="true"></i>{% endif %}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                            <tr class="hours" aria-hidden="true">
+                                <td></td>
+                                {% for h in act.rhythm.hours %}<td>{{ h }}</td>{% endfor %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <ol class="weekdays">
+                    {% for r in act.rhythm.rows %}
+                    <li>
+                        <span class="wd"><span aria-hidden="true">{{ r.label }}</span><span class="vh">{{ r.full }}</span></span>
+                        <span class="track"><i style="--w:{{ r.pct }}%"></i></span>
+                        <span class="n">{{ r.n }}</span>
+                    </li>
+                    {% endfor %}
+                </ol>
+                <p class="rhythm-note">By hour of day needs a token; this is the calendar by weekday.</p>
+                {% endif %}
+            </article>
+
+            {# ---------- Languages ---------- #}
+            <article class="act-card langs-card{{ ' full' if wide }}" aria-labelledby="langs-title">
+                <h3 id="langs-title">Languages <small>by bytes, {% if act.languages_scope == "all" %}all repos{% else %}public repos only{% endif %}</small></h3>
+                {% if act.languages %}
+                <div class="langbar" role="img" aria-label="{% for l in act.languages %}{{ l.name }} {{ l.pct_label }}{% if not loop.last %}, {% endif %}{% endfor %}">
+                    {% for l in act.languages %}<i class="t{{ l.tone }}" style="--w:{{ l.width }}%" title="{{ l.name }} {{ l.pct_label }}"></i>{% endfor %}
+                </div>
+                <ul class="langkey" aria-hidden="true">
+                    {% for l in act.languages %}<li><i class="t{{ l.tone }}"></i>{{ l.name }} <span>{{ l.pct_label }}</span></li>{% endfor %}
+                </ul>
+                {% else %}
+                <p class="empty">Nothing to show yet.</p>
+                {% endif %}
+            </article>
+
+            {# ---------- Recent commits ---------- #}
+            <article class="act-card feed-card" aria-labelledby="feed-title">
+                <h3 id="feed-title">Recent commits <small>{% if act.commits_scope == "all" %}private ones as counts only{% else %}public repos only{% endif %}</small></h3>
+                {% if act.commits %}
+                <ol class="feed">
+                    {% for c in act.commits %}
+                    <li{% if c.private %} class="private"{% endif %}>
+                        <time datetime="{{ c.when_iso }}" title="{{ c.when_full }}">{{ c.when }}</time>
+                        <span class="repo">
+                            {%- if c.private -%}
+                                a private repo{% if c.language %} <span class="lang">· {{ c.language }}</span>{% endif %}
+                            {%- else -%}
+                                <a href="{{ c.url or ('https://github.com/' ~ c.repo) }}" target="_blank" rel="noopener" title="{{ c.repo }}">{{ c.repo.split('/')[-1] }}</a>
+                            {%- endif -%}
+                        </span>
+                        <span class="msg">
+                            {%- if c.message and c.url -%}<a href="{{ c.url }}" target="_blank" rel="noopener">{{ c.message }}</a>
+                            {%- elif c.message -%}{{ c.message }}
+                            {%- else -%}<span aria-label="no message shown">—</span>{%- endif -%}
+                        </span>
+                        <span class="diff"{% if c.has_bar %} title="+{{ c.adds }} −{{ c.dels }}"{% endif %}>
+                            {%- if c.has_bar -%}<i class="add" style="--w:{{ c.add_w }}%"></i><i class="del" style="--w:{{ c.del_w }}%"></i><span class="vh">{{ c.adds }} added, {{ c.dels }} removed</span>{%- endif -%}
+                        </span>
+                    </li>
+                    {% endfor %}
+                </ol>
+                {% else %}
+                <p class="empty">No public commits in the last 90 days. The private ones are in the counts above{% if act.commits_scope != "all" %}; with a token they'd show here as dated, nameless rows{% endif %}.</p>
+                {% endif %}
+            </article>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

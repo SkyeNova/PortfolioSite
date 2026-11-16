@@ -1,0 +1,15 @@
+{# A winding path with a year on each bend. The SVG only shows on wide screens; narrow ones get a straight line. #}
+<ol class="ab-path" style="--n: {{ timeline|length }}">
+    <svg class="ab-path-line" viewBox="{{ path_box }}" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path d="{{ path_d }}" pathLength="1" />
+    </svg>
+    {% for t in timeline %}
+    <li>
+        <span class="ab-node"><span class="serif">{{ t.year }}</span></span>
+        <div class="ab-card">
+            <h3>{{ t.title }}</h3>
+            <p>{{ t.body }}</p>
+        </div>
+    </li>
+    {% endfor %}
+</ol>
