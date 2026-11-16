@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ post.title }} · Skye{% endblock %}
 {% block description %}{{ post.summary }}{% endblock %}
-{% block og_image %}https://skyenova.dev/images/{{ post.cover or "work/solaris-city.webp" }}{% endblock %}
+{% block og_image %}https://www.skyenova.dev/images/{{ post.cover or "work/solaris-city.webp" }}{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
 <link rel="canonical" href="{{ canonical }}">

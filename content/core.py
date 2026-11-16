@@ -92,4 +92,4 @@ LINKS = [
 
 # Press and business contact. None hides the line.
 PRESS_EMAIL = None  # TODO(skye): a real press/business address, if you want one public
-SITE_URL = "https://skyenova.dev"
+SITE_URL = "https://www.skyenova.dev"
